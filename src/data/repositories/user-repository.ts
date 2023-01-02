@@ -1,15 +1,15 @@
 import { IUser } from 'src/domain/entities/user';
 
-export type createUserParamsRepository = {
+export type createUserRepositoryParams = {
   email: string;
   password: string;
   userName: string;
   cpf: string;
-  accountVerificationCode?: string;
-  accountVerificationCodeExpiresAt?: Date;
+  accountVerificationCode: string;
+  accountVerificationCodeExpiresAt: Date;
 };
 
 export interface IUserRepository {
-  createUser(user: createUserParamsRepository): Promise<IUser>;
+  createUser(user: createUserRepositoryParams): Promise<IUser>;
   findUserByEmail(email: string): Promise<IUser | null>;
 }
