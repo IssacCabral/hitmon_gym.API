@@ -11,6 +11,7 @@ import { IHash } from '@data/protocols/hash';
 import { IMail } from '@data/protocols/mail';
 import { IUserRepository } from '@data/repositories/user-repository';
 import { DbCreateUserUseCase } from '@data/usecases/db-create-user';
+import { RoleTypes } from '@domain/entities/role';
 
 interface SutTypes {
   usecase: DbCreateUserUseCase;
@@ -138,5 +139,19 @@ describe('# UseCase - create user', () => {
       accountVerificationCode: '12345678',
       accountVerificationCodeExpiresAt: new Date('2020-12-22T13:33:18.781Z'),
     });
+  });
+
+  it('Should create new user with role STUDENT and RegistrationStep PENDING', async () => {
+    const { usecase } = makeSut();
+
+    const result = await usecase.execute(createUserMockParams);
+    expect(result.user).toHaveProperty('registrationStep', 'PENDING');
+    expect(result.user).toHaveProperty('roles', [
+      {
+        id: '1',
+        type: RoleTypes.STUDENT,
+        description: 'any_description',
+      },
+    ]);
   });
 });
