@@ -25,7 +25,15 @@ export class DbCreateUserUseCase implements ICreateUserUseCase {
       throw new Error('Email already exists');
     }
 
-    await this.hashService.generateHash(params.password);
+    const hashedPassword = await this.hashService.generateHash(params.password);
+
+    const accountVerificationCode =
+      await this.codeTemporaryService.generateCode();
+    const accountVerificationCodeExpiresAt = new Date();
+
+    accountVerificationCodeExpiresAt.setMinutes(
+      accountVerificationCodeExpiresAt.getMinutes() + 3,
+    );
 
     return null;
   }
