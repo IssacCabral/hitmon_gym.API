@@ -121,4 +121,22 @@ describe('# UseCase - create user', () => {
     const promise = usecase.execute(createUserMockParams);
     await expect(promise).rejects.toThrow();
   });
+
+  it('Should call createUser with correct values', async () => {
+    const { usecase, repository } = makeSut();
+    const createUserSpy = jest.spyOn(repository, 'createUser');
+
+    jest.useFakeTimers().setSystemTime(new Date('2020-12-22T13:30:18.781Z'));
+
+    await usecase.execute(createUserMockParams);
+
+    expect(createUserSpy).toHaveBeenCalledWith({
+      email: 'issac@email.com',
+      password: 'hashed_value',
+      userName: 'Issac',
+      cpf: '000.000.000-00',
+      accountVerificationCode: '12345678',
+      accountVerificationCodeExpiresAt: new Date('2020-12-22T13:33:18.781Z'),
+    });
+  });
 });

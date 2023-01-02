@@ -15,9 +15,8 @@ export const userMock: IUser = {
 };
 
 export const createUserMockParams: CreateUserParams = {
-  userName: 'Issac',
   email: 'issac@email.com',
   password: 'password',
+  userName: 'Issac',
   cpf: '000.000.000-00',
-  registrationStep: RegistrationStep.PENDING,
 };
