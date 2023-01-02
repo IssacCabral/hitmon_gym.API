@@ -42,6 +42,8 @@ export class DbCreateUserUseCase implements ICreateUserUseCase {
       accountVerificationCodeExpiresAt,
     });
 
-    return null;
+    return {
+      user,
+    };
   }
 }
