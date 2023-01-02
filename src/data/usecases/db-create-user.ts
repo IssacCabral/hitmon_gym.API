@@ -16,7 +16,15 @@ export class DbCreateUserUseCase implements ICreateUserUseCase {
     private readonly codeTemporaryService: ICodeTemporary,
   ) {}
 
-  execute(params: CreateUserParams): Promise<CreateUserReturns> {
-    throw new Error('Method not implemented.');
+  async execute(params: CreateUserParams): Promise<CreateUserReturns> {
+    const emailAlreadyExists = await this.userRepository.findUserByEmail(
+      params.email,
+    );
+
+    if (emailAlreadyExists) {
+      throw new Error('Email already exists');
+    }
+
+    return null;
   }
 }

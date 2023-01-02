@@ -1,12 +1,16 @@
-import { makeUserRepository } from '__tests__/mocks/repository/user-mock-repository';
-import { makeCodeTemporaryService } from '__tests__/mocks/usecase/protocols/code-temporary-mock';
-import { makeHashService } from '__tests__/mocks/usecase/protocols/hash-mock';
-import { makeMailService } from '__tests__/mocks/usecase/protocols/mail-mock';
-import { ICodeTemporary } from '../../../../../src/data/protocols/code-temporary';
-import { IHash } from '../../../../../src/data/protocols/hash';
-import { IMail } from '../../../../../src/data/protocols/mail';
-import { IUserRepository } from '../../../../../src/data/repositories/user-repository';
-import { DbCreateUserUseCase } from '../../../../../src/data/usecases/db-create-user';
+import {
+  createUserMockParams,
+  userMock,
+} from '@tests/mocks/entities/user-mock';
+import { makeUserRepository } from '@tests/mocks/repository/user-mock-repository';
+import { makeCodeTemporaryService } from '@tests/mocks/usecase/protocols/code-temporary-mock';
+import { makeHashService } from '@tests/mocks/usecase/protocols/hash-mock';
+import { makeMailService } from '@tests/mocks/usecase/protocols/mail-mock';
+import { ICodeTemporary } from '@data/protocols/code-temporary';
+import { IHash } from '@data/protocols/hash';
+import { IMail } from '@data/protocols/mail';
+import { IUserRepository } from '@data/repositories/user-repository';
+import { DbCreateUserUseCase } from '@data/usecases/db-create-user';
 
 interface SutTypes {
   usecase: DbCreateUserUseCase;
@@ -35,3 +39,34 @@ const makeSut = (): SutTypes => {
     codeTemporaryService,
   };
 };
+
+describe('# UseCase - create user', () => {
+  it('Should throw an error if email already exists', async () => {
+    const { usecase, repository } = makeSut();
+    const user = userMock;
+    jest.spyOn(repository, 'findUserByEmail').mockResolvedValueOnce(user);
+
+    const promise = usecase.execute(createUserMockParams);
+    await expect(promise).rejects.toThrowError(
+      new Error('Email already exists'),
+    );
+  });
+
+  it('Should call findUserByEmail with correct email', async () => {
+    const { usecase, repository } = makeSut();
+    const findByEmailSpy = jest.spyOn(repository, 'findUserByEmail');
+    await usecase.execute(createUserMockParams);
+    expect(findByEmailSpy).toHaveBeenCalledWith('issac@email.com');
+  });
+
+  it('Should throw if findUserByEmail throws', async () => {
+    const { usecase, repository } = makeSut();
+
+    jest.spyOn(repository, 'findUserByEmail').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    const promise = usecase.execute(createUserMockParams);
+    await expect(promise).rejects.toThrow();
+  });
+});
