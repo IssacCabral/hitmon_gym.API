@@ -1,4 +1,4 @@
-import { IRole, RoleTypes } from 'src/domain/entities/role';
+import { IRole, RoleTypes } from '@domain/entities/role';
 
 export const roleMock: IRole = {
   id: '1',

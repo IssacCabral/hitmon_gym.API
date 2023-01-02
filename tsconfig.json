@@ -16,6 +16,11 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@tests/*": ["./__tests__/*"],
+      "@data/*": ["./src/data/*"],
+      "@domain/*": ["./src/domain/*"]
+    }
   }
 }
