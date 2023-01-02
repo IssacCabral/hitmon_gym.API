@@ -52,13 +52,6 @@ describe('# UseCase - create user', () => {
     );
   });
 
-  it('Should call findUserByEmail with correct email', async () => {
-    const { usecase, repository } = makeSut();
-    const findByEmailSpy = jest.spyOn(repository, 'findUserByEmail');
-    await usecase.execute(createUserMockParams);
-    expect(findByEmailSpy).toHaveBeenCalledWith('issac@email.com');
-  });
-
   it('Should throw if findUserByEmail throws', async () => {
     const { usecase, repository } = makeSut();
 
@@ -68,5 +61,30 @@ describe('# UseCase - create user', () => {
 
     const promise = usecase.execute(createUserMockParams);
     await expect(promise).rejects.toThrow();
+  });
+
+  it('Should call findUserByEmail with correct email', async () => {
+    const { usecase, repository } = makeSut();
+    const findByEmailSpy = jest.spyOn(repository, 'findUserByEmail');
+    await usecase.execute(createUserMockParams);
+    expect(findByEmailSpy).toHaveBeenCalledWith('issac@email.com');
+  });
+
+  it('Should throw if hashService throws', async () => {
+    const { usecase, hashService } = makeSut();
+
+    jest.spyOn(hashService, 'generateHash').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    const promise = usecase.execute(createUserMockParams);
+    await expect(promise).rejects.toThrow();
+  });
+
+  it('Should call hashService with correct password', async () => {
+    const { usecase, hashService } = makeSut();
+    const hashSpy = jest.spyOn(hashService, 'generateHash');
+    await usecase.execute(createUserMockParams);
+    expect(hashSpy).toHaveBeenCalledWith('password');
   });
 });

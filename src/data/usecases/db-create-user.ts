@@ -25,6 +25,8 @@ export class DbCreateUserUseCase implements ICreateUserUseCase {
       throw new Error('Email already exists');
     }
 
+    await this.hashService.generateHash(params.password);
+
     return null;
   }
 }
