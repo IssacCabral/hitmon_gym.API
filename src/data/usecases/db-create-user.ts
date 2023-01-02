@@ -42,6 +42,14 @@ export class DbCreateUserUseCase implements ICreateUserUseCase {
       accountVerificationCodeExpiresAt,
     });
 
+    await this.mailService.sendEmail({
+      to: params.userName,
+      subject: 'Confirm your account',
+      body: {
+        template: 'confirm-account',
+      },
+    });
+
     return {
       user,
     };

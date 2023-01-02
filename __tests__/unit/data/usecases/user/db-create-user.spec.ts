@@ -154,4 +154,15 @@ describe('# UseCase - create user', () => {
       },
     ]);
   });
+
+  it('Should throw if mailService throws', async () => {
+    const { usecase, mailService } = makeSut();
+
+    jest.spyOn(mailService, 'sendEmail').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    const promise = usecase.execute(createUserMockParams);
+    await expect(promise).rejects.toThrow();
+  });
 });

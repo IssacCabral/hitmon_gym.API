@@ -1,3 +1,11 @@
+export type SendEmailParams = {
+  to: string;
+  subject: string;
+  body: {
+    template: string;
+  };
+};
+
 export interface IMail {
-  sendEmail(to: string, subject: string, body: any): Promise<void>;
+  sendEmail(sendEmailParams: SendEmailParams): Promise<void>;
 }
