@@ -13,7 +13,7 @@ export class DbCreateUserUseCase implements ICreateUserUseCase {
     private readonly userRepository: IUserRepository,
     private readonly hashService: IHash,
     private readonly mailService: IMail,
-    private readonly codeTemporary: ICodeTemporary,
+    private readonly codeTemporaryService: ICodeTemporary,
   ) {}
 
   execute(params: CreateUserParams): Promise<CreateUserReturns> {
