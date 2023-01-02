@@ -43,7 +43,7 @@ export class DbCreateUserUseCase implements ICreateUserUseCase {
     });
 
     await this.mailService.sendEmail({
-      to: params.userName,
+      to: params.email,
       subject: 'Confirm your account',
       body: {
         template: 'confirm-account',

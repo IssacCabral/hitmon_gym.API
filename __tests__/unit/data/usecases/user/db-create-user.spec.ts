@@ -125,13 +125,13 @@ describe('# UseCase - create user', () => {
 
   it('Should call createUser with correct values', async () => {
     const { usecase, repository } = makeSut();
-    const createUserSpy = jest.spyOn(repository, 'createUser');
+    const createUserRepoSpy = jest.spyOn(repository, 'createUser');
 
     jest.useFakeTimers().setSystemTime(new Date('2020-12-22T13:30:18.781Z'));
 
     await usecase.execute(createUserMockParams);
 
-    expect(createUserSpy).toHaveBeenCalledWith({
+    expect(createUserRepoSpy).toHaveBeenCalledWith({
       email: 'issac@email.com',
       password: 'hashed_value',
       userName: 'Issac',
@@ -164,5 +164,20 @@ describe('# UseCase - create user', () => {
 
     const promise = usecase.execute(createUserMockParams);
     await expect(promise).rejects.toThrow();
+  });
+
+  it('Should call mailService with correct values', async () => {
+    const { usecase, mailService } = makeSut();
+    const mailServiceSpy = jest.spyOn(mailService, 'sendEmail');
+
+    await usecase.execute(createUserMockParams);
+
+    expect(mailServiceSpy).toHaveBeenCalledWith({
+      to: 'issac@email.com',
+      subject: 'Confirm your account',
+      body: {
+        template: 'confirm-account',
+      },
+    });
   });
 });
