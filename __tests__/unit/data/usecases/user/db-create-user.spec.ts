@@ -110,4 +110,15 @@ describe('# UseCase - create user', () => {
     await usecase.execute(createUserMockParams);
     expect(codeTemporaryServiceSpy).toHaveBeenCalled();
   });
+
+  it('Should throw if createUser throws', async () => {
+    const { usecase, repository } = makeSut();
+
+    jest.spyOn(repository, 'createUser').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    const promise = usecase.execute(createUserMockParams);
+    await expect(promise).rejects.toThrow();
+  });
 });
