@@ -35,6 +35,13 @@ export class DbCreateUserUseCase implements ICreateUserUseCase {
       accountVerificationCodeExpiresAt.getMinutes() + 3,
     );
 
+    const user = await this.userRepository.createUser({
+      ...params,
+      password: hashedPassword,
+      accountVerificationCode,
+      accountVerificationCodeExpiresAt,
+    });
+
     return null;
   }
 }
