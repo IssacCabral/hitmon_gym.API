@@ -8,19 +8,13 @@ datasource db {
 }
 
 model User {
-  id       String @id @unique @default(uuid())
+  id   String @id @unique @default(uuid())
   // email String @unique @db.Varchar(30)
+  name String
+
   email    String @unique
   password String
 
-  userName String
-  cpf      String @unique
-
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
-}
-
-model Test {
-  id   String @id @unique @default(uuid())
-  name String
 }
