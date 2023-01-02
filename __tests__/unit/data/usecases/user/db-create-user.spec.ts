@@ -87,4 +87,17 @@ describe('# UseCase - create user', () => {
     await usecase.execute(createUserMockParams);
     expect(hashSpy).toHaveBeenCalledWith('password');
   });
+
+  it('Should throw if codeTemporaryService throws', async () => {
+    const { usecase, codeTemporaryService } = makeSut();
+
+    jest
+      .spyOn(codeTemporaryService, 'generateCode')
+      .mockImplementationOnce(() => {
+        throw new Error();
+      });
+
+    const promise = usecase.execute(createUserMockParams);
+    await expect(promise).rejects.toThrow();
+  });
 });
