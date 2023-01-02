@@ -100,4 +100,14 @@ describe('# UseCase - create user', () => {
     const promise = usecase.execute(createUserMockParams);
     await expect(promise).rejects.toThrow();
   });
+
+  it('Should codeTemporaryService to have been called', async () => {
+    const { usecase, codeTemporaryService } = makeSut();
+    const codeTemporaryServiceSpy = jest.spyOn(
+      codeTemporaryService,
+      'generateCode',
+    );
+    await usecase.execute(createUserMockParams);
+    expect(codeTemporaryServiceSpy).toHaveBeenCalled();
+  });
 });
