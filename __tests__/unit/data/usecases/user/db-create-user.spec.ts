@@ -135,7 +135,6 @@ describe('# UseCase - create user', () => {
       email: 'issac@email.com',
       password: 'hashed_value',
       userName: 'Issac',
-      cpf: '000.000.000-00',
       accountVerificationCode: '12345678',
       accountVerificationCodeExpiresAt: new Date('2020-12-22T13:33:18.781Z'),
     });

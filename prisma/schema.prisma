@@ -7,14 +7,39 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id   String @id @unique @default(uuid())
-  // email String @unique @db.Varchar(30)
-  name String
+enum RegistrationStep {
+  PENDING
+  VERIFIED
+}
 
-  email    String @unique
-  password String
+model User {
+  id String @id @unique @default(uuid())
+
+  email    String @unique @db.VarChar(50)
+  password String @db.VarChar(100)
+  userName String @db.VarChar(50)
+
+  registrationStep RegistrationStep @default(PENDING)
+
+  accountVerificationCode          String?   @db.VarChar(6)
+  accountVerificationCodeExpiresAt DateTime?
+
+  roles Role[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
+}
+
+enum RoleType {
+  ADMIN
+  STUDENT
+  INSTRUCTOR
+}
+
+model Role {
+  id String @id @unique @default(uuid())
+
+  type        RoleType @default(STUDENT)
+  description String?  @db.VarChar(200)
+  users       User[]
 }

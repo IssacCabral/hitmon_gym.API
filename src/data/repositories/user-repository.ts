@@ -4,7 +4,6 @@ export type createUserRepositoryParams = {
   email: string;
   password: string;
   userName: string;
-  cpf: string;
   accountVerificationCode: string;
   accountVerificationCodeExpiresAt: Date;
 };

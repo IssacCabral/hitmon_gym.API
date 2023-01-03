@@ -10,7 +10,6 @@ export interface IUser extends IBaseEntity {
   email: string;
   password: string;
   userName: string;
-  cpf: string;
   roles?: IRole[];
   registrationStep: RegistrationStep;
   accountVerificationCode?: string;
