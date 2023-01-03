@@ -4,6 +4,12 @@ import {
   CreateUserReturns,
 } from 'src/domain/types/user-params';
 import { ICreateUserUseCase } from 'src/domain/usecases/create-user';
+import {
+  CODE_TEMPORARY_SERVICE,
+  HASH_SERVICE,
+  MAIL_SERVICE,
+  USER_REPOSITORY,
+} from 'src/infra/modules/user/user.providers';
 import { ICodeTemporary } from '../protocols/code-temporary';
 import { IHash } from '../protocols/hash';
 import { IMail } from '../protocols/mail';
@@ -11,13 +17,13 @@ import { IUserRepository } from '../repositories/user-repository';
 
 export class DbCreateUserUseCase implements ICreateUserUseCase {
   constructor(
-    @Inject('USER_REPOSITORY')
+    @Inject(USER_REPOSITORY)
     private readonly userRepository: IUserRepository,
-    @Inject('HASH_SERVICE')
+    @Inject(HASH_SERVICE)
     private readonly hashService: IHash,
-    @Inject('MAIL_SERVICE')
+    @Inject(MAIL_SERVICE)
     private readonly mailService: IMail,
-    @Inject('CODE_TEMPORARY_SERVICE')
+    @Inject(CODE_TEMPORARY_SERVICE)
     private readonly codeTemporaryService: ICodeTemporary,
   ) {}
 

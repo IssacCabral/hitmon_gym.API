@@ -10,12 +10,13 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { ICreateUserUseCase } from '@domain/usecases/create-user';
+import { CREATE_USER_USE_CASE } from './user.providers';
 //import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
 export class UserController {
   constructor(
-    @Inject('CREATE_USER_USE_CASE')
+    @Inject(CREATE_USER_USE_CASE)
     private readonly createUserUseCase: ICreateUserUseCase,
   ) {}
 
