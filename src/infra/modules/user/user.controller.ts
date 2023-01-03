@@ -7,10 +7,13 @@ import {
   Param,
   Delete,
   Inject,
+  HttpException,
+  BadRequestException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { ICreateUserUseCase } from '@domain/usecases/create-user';
 import { CREATE_USER_USE_CASE } from './user.providers';
+import { BusinessError } from '@domain/errors/business-error';
 //import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
@@ -26,7 +29,14 @@ export class UserController {
       const user = await this.createUserUseCase.execute(createUserDto);
       return user;
     } catch (error) {
-      if (error) throw error;
+      if (error instanceof BusinessError) {
+        //throw new HttpException(error.message, error.statusCode);
+        throw new BadRequestException(error.message, {
+          cause: error,
+          description: error.name,
+        });
+      }
+      throw new BadRequestException(error);
     }
   }
 
