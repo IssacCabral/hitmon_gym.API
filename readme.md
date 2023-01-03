@@ -1,4 +1,3 @@
-
 - Cadastro de Aluno
 - Cadastro de instrutores
 - Sistemas de pagamento: pix e cartão
@@ -13,17 +12,20 @@
 # Academia
 
 ## Tecnologias
-- Microserviços(Kafka)
-	- Envio de Email
-	- Pagamento?
-- Nest Js?
+
+- Microserviços(Kafka? RabitMQ? Sistema de filas?)
+  - Envio de Email
+  - Pagamento?
+- Nest Js
 - React
 
 ## Arquitetura
-- Clean arch?
-- testes automatizados não podem faltar
+
+- Clean arch
+- testes automatizados
 
 ## Entidades
+
 - Alunos
 - Instrutores
 - Avaliação
@@ -31,26 +33,26 @@
 - Treino_semanal
 - ficha_de_treino
 
-[https://apexcharts.com/](https://apexcharts.com/ "https://apexcharts.com/")
+[https://apexcharts.com/](https://apexcharts.com/ 'https://apexcharts.com/')
 
 gympass
 
 ## Funcionamento
 
 - Terá uma tela de login para autenticação dos usuários. Que serão três tipos de usuários:
-	- aluno
-	- instrutor
-	- admin
+  - aluno
+  - instrutor
+  - admin
 - Terá um fluxo de recuperação de senha
 - O aluno poderá ser avaliado mensalmente por um instrutor
-	- Avaliação muscular
-	- Avaliação antropométrica
+  - Avaliação muscular
+  - Avaliação antropométrica
 - Terá um dashboard para visualização da evolução do aluno em relação a avaliação muscular
 - Um aluno terá uma ficha de treino semanal criada por um instrutor
 - Terá um microserviço de envio de emails. Enviaremos emails quando:
-	- Um novo usuário se cadastrar no sistema
-	- Uma nova lista de treino for gerada pelo instrutor (será enviado um email de notificação ao aluno e ao instrutor)
-	- Um aluno completar aniversário
+  - Um novo usuário se cadastrar no sistema
+  - Uma nova lista de treino for gerada pelo instrutor (será enviado um email de notificação ao aluno e ao instrutor)
+  - Um aluno completar aniversário
 
 ### Requisitos não funcionais
 
@@ -59,8 +61,7 @@ gympass
 - RNF03. Utilizar Docker para manter a aplicação dentro de um container
 - RNF04. O frontend deve ser implementado utilizando reactjs
 - RNF05. O microserviço de envio de emails pode ser implementado utilizando nest ou express
-- RNF06. Para fazer a comunicação entre o MS e o backend principal, deve ser utilizado o kafka
-
+- RNF06. Para fazer a comunicação entre o MS e o backend principal, deve ser utilizado o kafka ou RabitMQ ou Sistema de filas
 
 ### Requisitos funcionais
 
@@ -71,8 +72,8 @@ gympass
 - RF05. Registrar um equipment_equipment(instructors)
 - RF06. Registrar um status de pagamento de student
 - RF07. Cadastro de equipment_category
-- RF08.  Gerar relatórios de evolução para um student com base no histórico de avaliação
-- RF09. Disparar emails para novos users, recuperação de senha, avaliação realizada, pagamentos em débitos, criação de ficha de treino. 
+- RF08. Gerar relatórios de evolução para um student com base no histórico de avaliação
+- RF09. Disparar emails para novos users, recuperação de senha, avaliação realizada, pagamentos em débitos, criação de ficha de treino.
 
 ### Esquema inicial do banco de dados
 
