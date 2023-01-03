@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum RegistrationStep {
+  PENDING
+  VERIFIED
+}
+
+model User {
+  id String @id @unique @default(uuid())
+
+  email    String @unique @db.VarChar(50)
+  password String @db.VarChar(100)
+  userName String @db.VarChar(50)
+
+  registrationStep RegistrationStep @default(PENDING)
+
+  accountVerificationCode          String?   @db.VarChar(6)
+  accountVerificationCodeExpiresAt DateTime?
+
+  roles Role[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+}
+
+enum RoleTypes {
+  ADMIN
+  STUDENT
+  INSTRUCTOR
+}
+
+model Role {
+  id String @id @unique @default(uuid())
+
+  type        RoleTypes @default(STUDENT)
+  description String?   @db.VarChar(200)
+  users       User[]
+}
