@@ -1,9 +1,7 @@
 export type SendEmailParams = {
   to: string;
   subject: string;
-  body: {
-    template: string;
-  };
+  body: any;
 };
 
 export interface IMail {

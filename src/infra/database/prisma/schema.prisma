@@ -30,7 +30,7 @@ model User {
   updatedAt DateTime @default(now())
 }
 
-enum RoleType {
+enum RoleTypes {
   ADMIN
   STUDENT
   INSTRUCTOR
@@ -39,7 +39,7 @@ enum RoleType {
 model Role {
   id String @id @unique @default(uuid())
 
-  type        RoleType @default(STUDENT)
-  description String?  @db.VarChar(200)
+  type        RoleTypes @default(STUDENT)
+  description String?   @db.VarChar(200)
   users       User[]
 }

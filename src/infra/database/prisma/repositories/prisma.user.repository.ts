@@ -10,11 +10,35 @@ import { PrismaService } from '../prisma.service';
 export class PrismaUserRepository implements IUserRepository {
   constructor(private readonly prismaService: PrismaService) {}
 
-  createUser(user: createUserRepositoryParams): Promise<IUser> {
-    throw new Error('Method not implemented.');
+  async createUser(user: createUserRepositoryParams): Promise<IUser> {
+    const studentRole = await this.prismaService.role.findFirst({
+      where: {
+        type: 'STUDENT',
+      },
+    });
+
+    const createdUser = await this.prismaService.user.create({
+      data: {
+        ...user,
+        roles: {
+          connect: {
+            id: studentRole.id,
+          },
+        },
+      },
+      include: {
+        roles: true,
+      },
+    });
+
+    return createdUser as IUser;
   }
 
-  findUserByEmail(email: string): Promise<IUser> {
-    throw new Error('Method not implemented.');
+  async findUserByEmail(email: string): Promise<IUser> {
+    return (await this.prismaService.user.findFirst({
+      where: {
+        email,
+      },
+    })) as IUser;
   }
 }

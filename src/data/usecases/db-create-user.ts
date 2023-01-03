@@ -1,3 +1,4 @@
+import { Inject } from '@nestjs/common';
 import {
   CreateUserParams,
   CreateUserReturns,
@@ -10,9 +11,13 @@ import { IUserRepository } from '../repositories/user-repository';
 
 export class DbCreateUserUseCase implements ICreateUserUseCase {
   constructor(
+    @Inject('USER_REPOSITORY')
     private readonly userRepository: IUserRepository,
+    @Inject('HASH_SERVICE')
     private readonly hashService: IHash,
+    @Inject('MAIL_SERVICE')
     private readonly mailService: IMail,
+    @Inject('CODE_TEMPORARY_SERVICE')
     private readonly codeTemporaryService: ICodeTemporary,
   ) {}
 
@@ -42,16 +47,21 @@ export class DbCreateUserUseCase implements ICreateUserUseCase {
       accountVerificationCodeExpiresAt,
     });
 
+    const userWithoutPassword = Object.assign({}, user, {
+      password: undefined,
+    });
+
     await this.mailService.sendEmail({
       to: params.email,
       subject: 'Confirm your account',
       body: {
         template: 'confirm-account',
+        code: user.accountVerificationCode,
       },
     });
 
     return {
-      user,
+      user: userWithoutPassword,
     };
   }
 }
