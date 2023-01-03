@@ -1,3 +1,4 @@
+import { BusinessError } from '@domain/errors/business-error';
 import { Inject } from '@nestjs/common';
 import {
   CreateUserParams,
@@ -9,7 +10,7 @@ import {
   HASH_SERVICE,
   MAIL_SERVICE,
   USER_REPOSITORY,
-} from 'src/infra/modules/user/user.providers';
+} from '../../infra/modules/user/user.providers';
 import { ICodeTemporary } from '../protocols/code-temporary';
 import { IHash } from '../protocols/hash';
 import { IMail } from '../protocols/mail';
@@ -33,7 +34,15 @@ export class DbCreateUserUseCase implements ICreateUserUseCase {
     );
 
     if (emailAlreadyExists) {
-      throw new Error('Email already exists');
+      throw new BusinessError('Email already exists');
+    }
+
+    const userNameAlreadyExists = await this.userRepository.findUserByUserName(
+      params.userName,
+    );
+
+    if (userNameAlreadyExists) {
+      throw new BusinessError('Username already exists');
     }
 
     const hashedPassword = await this.hashService.generateHash(params.password);

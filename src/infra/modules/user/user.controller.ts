@@ -22,8 +22,12 @@ export class UserController {
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
-    const user = await this.createUserUseCase.execute(createUserDto);
-    return user;
+    try {
+      const user = await this.createUserUseCase.execute(createUserDto);
+      return user;
+    } catch (error) {
+      if (error) throw error;
+    }
   }
 
   // @Get()

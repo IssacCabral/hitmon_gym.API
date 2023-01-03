@@ -11,6 +11,9 @@ export const makeUserRepository = (): IUserRepository => {
     findUserByEmail(email: string): Promise<IUser> {
       return Promise.resolve(null);
     }
+    findUserByUserName(userName: string): Promise<IUser> {
+      return Promise.resolve(null);
+    }
   }
   return new UserRepositoryStub();
 };

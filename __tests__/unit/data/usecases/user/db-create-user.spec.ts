@@ -12,6 +12,7 @@ import { IMail } from '@data/protocols/mail';
 import { IUserRepository } from '@data/repositories/user-repository';
 import { DbCreateUserUseCase } from '@data/usecases/db-create-user';
 import { RoleTypes } from '@domain/entities/role';
+import { BusinessError } from '@domain/errors/business-error';
 
 interface SutTypes {
   usecase: DbCreateUserUseCase;
@@ -42,14 +43,14 @@ const makeSut = (): SutTypes => {
 };
 
 describe('# UseCase - create user', () => {
-  it('Should throw an error if email already exists', async () => {
+  it('Should throw a BusinessError if email already exists', async () => {
     const { usecase, repository } = makeSut();
     const user = userMock;
     jest.spyOn(repository, 'findUserByEmail').mockResolvedValueOnce(user);
 
     const promise = usecase.execute(createUserMockParams);
     await expect(promise).rejects.toThrowError(
-      new Error('Email already exists'),
+      new BusinessError('Email already exists'),
     );
   });
 
@@ -69,6 +70,35 @@ describe('# UseCase - create user', () => {
     const findByEmailSpy = jest.spyOn(repository, 'findUserByEmail');
     await usecase.execute(createUserMockParams);
     expect(findByEmailSpy).toHaveBeenCalledWith('issac@email.com');
+  });
+
+  it('Should throw a BusinessError if userName already exists', async () => {
+    const { usecase, repository } = makeSut();
+    const user = userMock;
+    jest.spyOn(repository, 'findUserByUserName').mockResolvedValueOnce(user);
+
+    const promise = usecase.execute(createUserMockParams);
+    await expect(promise).rejects.toThrowError(
+      new BusinessError('Username already exists'),
+    );
+  });
+
+  it('Should throw if findUserByUserName throws', async () => {
+    const { usecase, repository } = makeSut();
+
+    jest.spyOn(repository, 'findUserByUserName').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    const promise = usecase.execute(createUserMockParams);
+    await expect(promise).rejects.toThrow();
+  });
+
+  it('Should call findUserByUserName with correct userName', async () => {
+    const { usecase, repository } = makeSut();
+    const findByUserNameSpy = jest.spyOn(repository, 'findUserByUserName');
+    await usecase.execute(createUserMockParams);
+    expect(findByUserNameSpy).toHaveBeenCalledWith('Issac');
   });
 
   it('Should throw if hashService throws', async () => {

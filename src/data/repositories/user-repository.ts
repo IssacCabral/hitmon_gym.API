@@ -11,4 +11,5 @@ export type createUserRepositoryParams = {
 export interface IUserRepository {
   createUser(user: createUserRepositoryParams): Promise<IUser>;
   findUserByEmail(email: string): Promise<IUser | null>;
+  findUserByUserName(userName: string): Promise<IUser | null>;
 }
