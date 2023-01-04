@@ -15,10 +15,10 @@ export const makeUserRepository = (): IUserRepository => {
       return Promise.resolve(null);
     }
     findUserById(id: string): Promise<IUser> {
-      return Promise.resolve(null);
+      return Promise.resolve(userMock);
     }
     updateUser(id: string, params: UpdateUserParams): Promise<IUser> {
-      throw new Error('Method not implemented.');
+      return Promise.resolve(userMock);
     }
   }
   return new UserRepositoryStub();

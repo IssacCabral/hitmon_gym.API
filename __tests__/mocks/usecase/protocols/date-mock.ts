@@ -12,7 +12,7 @@ export const makeDateService = (): IDate => {
       return true;
     }
     checkIfAfter(date: Date, dateToCompare: Date): boolean {
-      return false;
+      return true;
     }
   }
 
