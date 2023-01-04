@@ -3,6 +3,7 @@ import {
   IUserRepository,
 } from '@data/repositories/user-repository';
 import { IUser } from '@domain/entities/user';
+import { UpdateUserParams } from '@domain/types/user-params';
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 
@@ -34,6 +35,14 @@ export class PrismaUserRepository implements IUserRepository {
     return createdUser as IUser;
   }
 
+  async findUserById(id: string): Promise<IUser> {
+    return (await this.prismaService.user.findUnique({
+      where: {
+        id,
+      },
+    })) as IUser;
+  }
+
   async findUserByEmail(email: string): Promise<IUser> {
     return (await this.prismaService.user.findFirst({
       where: {
@@ -48,5 +57,21 @@ export class PrismaUserRepository implements IUserRepository {
         username,
       },
     })) as IUser;
+  }
+
+  async updateUser(id: string, params: UpdateUserParams): Promise<IUser> {
+    const updatedUser = await this.prismaService.user.update({
+      where: {
+        id,
+      },
+      data: {
+        ...params,
+      },
+      include: {
+        roles: true,
+      },
+    });
+
+    return updatedUser as IUser;
   }
 }

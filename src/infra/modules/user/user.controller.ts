@@ -12,15 +12,21 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { ICreateUserUseCase } from '@domain/usecases/create-user';
-import { CREATE_USER_USE_CASE } from './user.providers';
+import {
+  CHECK_ACCOUNT_VERIFICATION_CODE_USE_CASE,
+  CREATE_USER_USE_CASE,
+} from './user.providers';
 import { BusinessError } from '@domain/errors/business-error';
-//import { UpdateUserDto } from './dto/update-user.dto';
+import { ICheckAccountVerificationCodeUseCase } from '@domain/usecases/check-account-verification-code';
+import { CheckAccountVerificationCodeDto } from './dtos/check.account.verification.code';
 
 @Controller('users')
 export class UserController {
   constructor(
     @Inject(CREATE_USER_USE_CASE)
     private readonly createUserUseCase: ICreateUserUseCase,
+    @Inject(CHECK_ACCOUNT_VERIFICATION_CODE_USE_CASE)
+    private readonly checkAccountVerificationCodeUseCase: ICheckAccountVerificationCodeUseCase,
   ) {}
 
   @Post()
@@ -37,6 +43,24 @@ export class UserController {
         });
       }
       throw new BadRequestException(error);
+    }
+  }
+
+  @Post('/:userId/:code')
+  async checkAccountVerificationCode(
+    @Param() checkAccountVerificationCodeDto: CheckAccountVerificationCodeDto,
+  ) {
+    try {
+      const { userId, code } = checkAccountVerificationCodeDto;
+      return await this.checkAccountVerificationCodeUseCase.execute(
+        code,
+        userId,
+      );
+    } catch (error) {
+      if (error instanceof BusinessError) {
+        throw new HttpException(error.message, error.statusCode);
+      }
+      throw error;
     }
   }
 

@@ -8,12 +8,16 @@ import { BcryptHashAdapter } from 'src/infra/protocols/hash/bcrypt.hash.adapter'
 import { NodeMailerAdapter } from 'src/infra/protocols/mail/mail';
 import { CodeTemporary } from 'src/infra/protocols/code-temporary/code-temporary';
 import {
+  CHECK_ACCOUNT_VERIFICATION_CODE_USE_CASE,
   CODE_TEMPORARY_SERVICE,
   CREATE_USER_USE_CASE,
+  DATE_SERVICE,
   HASH_SERVICE,
   MAIL_SERVICE,
   USER_REPOSITORY,
 } from './user.providers';
+import { MomentAdapter } from 'src/infra/protocols/date/moment-adapter';
+import { DbCheckAccountVerificationCodeUseCase } from '@data/usecases/db-check-account-verification-code';
 
 @Module({
   imports: [DatabaseModule, ProtocolsModule],
@@ -22,6 +26,10 @@ import {
     {
       provide: CREATE_USER_USE_CASE,
       useClass: DbCreateUserUseCase,
+    },
+    {
+      provide: CHECK_ACCOUNT_VERIFICATION_CODE_USE_CASE,
+      useClass: DbCheckAccountVerificationCodeUseCase,
     },
     {
       provide: USER_REPOSITORY,
@@ -38,6 +46,10 @@ import {
     {
       provide: CODE_TEMPORARY_SERVICE,
       useClass: CodeTemporary,
+    },
+    {
+      provide: DATE_SERVICE,
+      useClass: MomentAdapter,
     },
   ],
 })

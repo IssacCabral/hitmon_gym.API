@@ -1,4 +1,5 @@
-import { IUser } from '../entities/user';
+import { IRole } from '@domain/entities/role';
+import { IUser, RegistrationStep } from '../entities/user';
 
 export type CreateUserParams = Omit<
   IUser,
@@ -12,4 +13,13 @@ export type CreateUserParams = Omit<
 >;
 export type CreateUserReturns = {
   user: Partial<Omit<IUser, 'password'>>;
+};
+
+export type UpdateUserParams = {
+  email?: string;
+  password?: string;
+  username?: string;
+  registrationStep?: RegistrationStep;
+  accountVerificationCode?: string;
+  accountVerificationCodeExpiresAt?: Date;
 };
