@@ -20,7 +20,8 @@
     "paths": {
       "@tests/*": ["./__tests__/*"],
       "@data/*": ["./src/data/*"],
-      "@domain/*": ["./src/domain/*"]
+      "@domain/*": ["./src/domain/*"],
+      "@infra/*": ["./src/infra/*"]
     }
   }
 }

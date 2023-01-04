@@ -7,7 +7,7 @@ import { Inject } from '@nestjs/common';
 import {
   DATE_SERVICE,
   USER_REPOSITORY,
-} from 'src/infra/modules/user/user.providers';
+} from '@infra/modules/user/user.providers';
 
 export class DbCheckAccountVerificationCodeUseCase
   implements ICheckAccountVerificationCodeUseCase
