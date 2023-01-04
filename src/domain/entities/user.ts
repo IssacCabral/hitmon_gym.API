@@ -9,7 +9,7 @@ export enum RegistrationStep {
 export interface IUser extends IBaseEntity {
   email: string;
   password: string;
-  userName: string;
+  username: string;
   roles?: IRole[];
   registrationStep: RegistrationStep;
   accountVerificationCode?: string;

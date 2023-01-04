@@ -42,10 +42,10 @@ export class PrismaUserRepository implements IUserRepository {
     })) as IUser;
   }
 
-  async findUserByUserName(userName: string): Promise<IUser> {
+  async findUserByUserName(username: string): Promise<IUser> {
     return (await this.prismaService.user.findFirst({
       where: {
-        userName,
+        username,
       },
     })) as IUser;
   }

@@ -4,7 +4,7 @@ import { roleMock } from './role-mock';
 
 export const userMock: IUser = {
   id: '1',
-  userName: 'Issac',
+  username: 'Issac',
   email: 'issac@email.com',
   password: 'hashedpassword',
   registrationStep: RegistrationStep.PENDING,
@@ -16,5 +16,5 @@ export const userMock: IUser = {
 export const createUserMockParams: CreateUserParams = {
   email: 'issac@email.com',
   password: 'password',
-  userName: 'Issac',
+  username: 'Issac',
 };

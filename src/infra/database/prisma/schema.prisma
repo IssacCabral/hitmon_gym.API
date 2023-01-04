@@ -10,6 +10,8 @@ datasource db {
 enum RegistrationStep {
   PENDING
   VERIFIED
+
+  @@map("registration_steps")
 }
 
 model User {
@@ -17,23 +19,27 @@ model User {
 
   email    String @unique @db.VarChar(50)
   password String @db.VarChar(100)
-  userName String @db.VarChar(50)
+  username String @db.VarChar(50)
 
-  registrationStep RegistrationStep @default(PENDING)
+  registrationStep RegistrationStep @default(PENDING) @map("registration_step")
 
-  accountVerificationCode          String?   @db.VarChar(6)
-  accountVerificationCodeExpiresAt DateTime?
+  accountVerificationCode          String?   @map("account_verification_code") @db.VarChar(6)
+  accountVerificationCodeExpiresAt DateTime? @map("account_verification_code_expires_at")
 
-  roles Role[]
+  roles Role[] @relation("user_roles")
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+
+  @@map("users")
 }
 
 enum RoleTypes {
   ADMIN
   STUDENT
   INSTRUCTOR
+
+  @@map("role_types")
 }
 
 model Role {
@@ -41,5 +47,7 @@ model Role {
 
   type        RoleTypes @default(STUDENT)
   description String?   @db.VarChar(200)
-  users       User[]
+  users       User[]    @relation("user_roles")
+
+  @@map("roles")
 }

@@ -37,11 +37,11 @@ export class DbCreateUserUseCase implements ICreateUserUseCase {
       throw new BusinessError('Email already exists');
     }
 
-    const userNameAlreadyExists = await this.userRepository.findUserByUserName(
-      params.userName,
+    const usernameAlreadyExists = await this.userRepository.findUserByUserName(
+      params.username,
     );
 
-    if (userNameAlreadyExists) {
+    if (usernameAlreadyExists) {
       throw new BusinessError('Username already exists');
     }
 

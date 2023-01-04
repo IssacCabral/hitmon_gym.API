@@ -72,7 +72,7 @@ describe('# UseCase - create user', () => {
     expect(findByEmailSpy).toHaveBeenCalledWith('issac@email.com');
   });
 
-  it('Should throw a BusinessError if userName already exists', async () => {
+  it('Should throw a BusinessError if username already exists', async () => {
     const { usecase, repository } = makeSut();
     const user = userMock;
     jest.spyOn(repository, 'findUserByUserName').mockResolvedValueOnce(user);
@@ -94,7 +94,7 @@ describe('# UseCase - create user', () => {
     await expect(promise).rejects.toThrow();
   });
 
-  it('Should call findUserByUserName with correct userName', async () => {
+  it('Should call findUserByUserName with correct username', async () => {
     const { usecase, repository } = makeSut();
     const findByUserNameSpy = jest.spyOn(repository, 'findUserByUserName');
     await usecase.execute(createUserMockParams);
@@ -164,7 +164,7 @@ describe('# UseCase - create user', () => {
     expect(createUserRepoSpy).toHaveBeenCalledWith({
       email: 'issac@email.com',
       password: 'hashed_value',
-      userName: 'Issac',
+      username: 'Issac',
       accountVerificationCode: '12345678',
       accountVerificationCodeExpiresAt: new Date('2020-12-22T13:33:18.781Z'),
     });

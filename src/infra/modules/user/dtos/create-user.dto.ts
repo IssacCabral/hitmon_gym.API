@@ -21,11 +21,11 @@ export class CreateUserDto {
   @IsNotEmpty({ message: 'password can not be empty' })
   password: string;
 
-  @IsNotEmpty({ message: 'userName can not be empty' })
+  @IsNotEmpty({ message: 'username can not be empty' })
   @Matches(/^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$/, {
-    message: 'invalid userName.',
+    message: 'invalid username.',
   })
   @MinLength(8)
   @MaxLength(20)
-  userName: string;
+  username: string;
 }
