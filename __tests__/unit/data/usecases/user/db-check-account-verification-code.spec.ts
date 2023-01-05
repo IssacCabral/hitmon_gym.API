@@ -29,16 +29,10 @@ const makeSut = (): SutTypes => {
   };
 };
 
-const requestMock = {
-  code: '123456',
-  userId: '9be6c21a-7da4-4653-aaa5-56eeec84bda4',
-};
-
 describe('# UseCase - check account verification code', () => {
   it('Should throw a BusinessError if user is not found', async () => {
     const { usecase, repository } = makeSut();
     jest.spyOn(repository, 'findUserById').mockResolvedValueOnce(null);
-    const { code, userId } = requestMock;
     const promise = usecase.execute('123456', 'any_id');
     await expect(promise).rejects.toThrowError(
       new BusinessError('User is not found', 404),
@@ -54,6 +48,19 @@ describe('# UseCase - check account verification code', () => {
     await expect(promise).rejects.toThrow();
   });
 
+  it('Should call findUserById with correct id', async () => {
+    const { usecase, repository } = makeSut();
+    const findByIdSpy = jest
+      .spyOn(repository, 'findUserById')
+      .mockResolvedValueOnce({
+        ...userMock,
+        id: 'any_id',
+        accountVerificationCode: '123456',
+      } as IUser);
+    await usecase.execute('123456', 'any_id');
+    expect(findByIdSpy).toHaveBeenCalledWith('any_id');
+  });
+
   it('Should throw a BusinessError if user is already verified', async () => {
     const { usecase, repository } = makeSut();
 
@@ -66,23 +73,6 @@ describe('# UseCase - check account verification code', () => {
 
     await expect(promise).rejects.toThrowError(
       new BusinessError('User is already verified'),
-    );
-  });
-
-  it('Should call findUserById with correct id', async () => {
-    const { usecase, repository } = makeSut();
-    const findByIdSpy = jest
-      .spyOn(repository, 'findUserById')
-      .mockResolvedValueOnce({
-        ...userMock,
-        id: requestMock.userId,
-        accountVerificationCode: requestMock.code,
-        accountVerificationCodeExpiresAt: new Date(),
-      });
-    const { code, userId } = requestMock;
-    await usecase.execute(code, userId);
-    expect(findByIdSpy).toHaveBeenCalledWith(
-      '9be6c21a-7da4-4653-aaa5-56eeec84bda4',
     );
   });
 });
