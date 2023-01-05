@@ -1,7 +1,7 @@
 import { IDate } from '@data/protocols/date';
 import { IUserRepository } from '@data/repositories/user-repository';
 import { DbCheckAccountVerificationCodeUseCase } from '@data/usecases/db-check-account-verification-code';
-import { RegistrationStep } from '@domain/entities/user';
+import { IUser, RegistrationStep } from '@domain/entities/user';
 import { BusinessError } from '@domain/errors/business-error';
 import { roleMock } from '@tests/mocks/entities/role-mock';
 import { userMock } from '@tests/mocks/entities/user-mock';
@@ -39,7 +39,7 @@ describe('# UseCase - check account verification code', () => {
     const { usecase, repository } = makeSut();
     jest.spyOn(repository, 'findUserById').mockResolvedValueOnce(null);
     const { code, userId } = requestMock;
-    const promise = usecase.execute(code, userId);
+    const promise = usecase.execute('123456', 'any_id');
     await expect(promise).rejects.toThrowError(
       new BusinessError('User is not found', 404),
     );
@@ -47,13 +47,26 @@ describe('# UseCase - check account verification code', () => {
 
   it('Should throw if findUserById throws', async () => {
     const { usecase, repository } = makeSut();
-
     jest.spyOn(repository, 'findUserById').mockImplementationOnce(() => {
       throw new Error();
     });
-    const { code, userId } = requestMock;
-    const promise = usecase.execute(code, userId);
+    const promise = usecase.execute('123456', 'any_id');
     await expect(promise).rejects.toThrow();
+  });
+
+  it('Should throw a BusinessError if user is already verified', async () => {
+    const { usecase, repository } = makeSut();
+
+    jest.spyOn(repository, 'findUserById').mockResolvedValueOnce({
+      id: 'any_id',
+      registrationStep: RegistrationStep.VERIFIED,
+    } as IUser);
+
+    const promise = usecase.execute('123456', 'any_id');
+
+    await expect(promise).rejects.toThrowError(
+      new BusinessError('User is already verified'),
+    );
   });
 
   it('Should call findUserById with correct id', async () => {
