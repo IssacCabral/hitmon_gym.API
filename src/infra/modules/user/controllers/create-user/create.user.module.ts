@@ -13,43 +13,44 @@ import {
   MAIL_SERVICE,
   USER_REPOSITORY,
 } from '../../user.providers';
+import { DbCreateUserUseCaseModule } from './usecase.module';
+
+// @Module({
+//   imports: [DatabaseModule],
+//   controllers: [CreateUserController],
+//   providers: [
+//     {
+//       provide: CREATE_USER_USE_CASE,
+//       useClass: DbCreateUserUseCase,
+//     },
+//     {
+//       provide: USER_REPOSITORY,
+//       useClass: PrismaUserRepository,
+//     },
+//     {
+//       provide: HASH_SERVICE,
+//       useClass: BcryptHashAdapter,
+//     },
+//     {
+//       provide: MAIL_SERVICE,
+//       useClass: NodeMailerAdapter,
+//     },
+//     {
+//       provide: CODE_TEMPORARY_SERVICE,
+//       useClass: CodeTemporary,
+//     },
+//   ],
+// })
+// export class CreateUserModule {}
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [DbCreateUserUseCaseModule],
   controllers: [CreateUserController],
   providers: [
     {
       provide: CREATE_USER_USE_CASE,
       useClass: DbCreateUserUseCase,
     },
-    {
-      provide: USER_REPOSITORY,
-      useClass: PrismaUserRepository,
-    },
-    {
-      provide: HASH_SERVICE,
-      useClass: BcryptHashAdapter,
-    },
-    {
-      provide: MAIL_SERVICE,
-      useClass: NodeMailerAdapter,
-    },
-    {
-      provide: CODE_TEMPORARY_SERVICE,
-      useClass: CodeTemporary,
-    },
   ],
 })
 export class CreateUserModule {}
-
-// @Module({
-//   imports: [DbCreateUserUseCaseModule],
-//   controllers: [UserController],
-//   providers: [
-//     {
-//       provide: CREATE_USER_USE_CASE,
-//       useClass: DbCreateUserUseCase,
-//     },
-//   ],
-// })
-// export class CreateUserModule {}

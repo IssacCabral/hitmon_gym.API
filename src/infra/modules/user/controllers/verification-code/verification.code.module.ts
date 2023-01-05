@@ -8,7 +8,7 @@ import {
   DATE_SERVICE,
   USER_REPOSITORY,
 } from '../../user.providers';
-import { VerificationCodeController } from './verification.code.controller';
+import { VerificationCodeController } from './verification-code.controller';
 
 @Module({
   imports: [DatabaseModule],
