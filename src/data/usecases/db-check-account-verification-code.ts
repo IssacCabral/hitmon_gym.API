@@ -31,7 +31,7 @@ export class DbCheckAccountVerificationCodeUseCase
     }
 
     if (user.accountVerificationCode !== code) {
-      throw new BusinessError('Invalid code', 400);
+      throw new BusinessError('Invalid code', 401);
     }
 
     const isNotExpired = this.isNotExpired(
@@ -39,7 +39,7 @@ export class DbCheckAccountVerificationCodeUseCase
     );
 
     if (!isNotExpired) {
-      throw new BusinessError('Expired code', 400);
+      throw new BusinessError('Expired code', 401);
     }
 
     await this.userRepository.updateUser(user.id, {

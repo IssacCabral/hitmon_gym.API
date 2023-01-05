@@ -75,4 +75,25 @@ describe('# UseCase - check account verification code', () => {
       new BusinessError('User is already verified'),
     );
   });
+
+  it('Should throw a BusinessError if code does not match', async () => {
+    const { usecase, repository, dateService } = makeSut();
+
+    jest.spyOn(repository, 'findUserById').mockResolvedValueOnce({
+      id: 'any_id',
+      accountVerificationCode: '123456',
+    } as IUser);
+
+    jest.spyOn(usecase, 'isNotExpired' as any).mockReturnValueOnce(false);
+
+    const promise = usecase.execute('123456', 'any_id');
+
+    await expect(promise).rejects.toThrowError(
+      new BusinessError('Expired code', 401),
+    );
+  });
+
+  it('Should throw a BusinessError if code is expired', async () => {
+    const { usecase, repository } = makeSut();
+  });
 });
