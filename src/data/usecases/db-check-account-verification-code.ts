@@ -27,10 +27,7 @@ export class DbCheckAccountVerificationCodeUseCase
     }
 
     if (user.registrationStep === RegistrationStep.VERIFIED) {
-      return {
-        id: user.id,
-        registrationStep: RegistrationStep.VERIFIED,
-      };
+      throw new BusinessError('User is already verified');
     }
 
     if (user.accountVerificationCode !== code) {
