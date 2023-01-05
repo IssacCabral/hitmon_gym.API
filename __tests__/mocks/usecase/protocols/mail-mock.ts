@@ -1,4 +1,4 @@
-import { IMail, SendEmailParams } from 'src/data/protocols/mail';
+import { IMail, SendEmailParams } from '@data/protocols/mail';
 
 export const makeMailService = (): IMail => {
   class MailServiceStub implements IMail {

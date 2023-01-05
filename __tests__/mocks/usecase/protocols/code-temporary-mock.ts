@@ -1,4 +1,4 @@
-import { ICodeTemporary } from 'src/data/protocols/code-temporary';
+import { ICodeTemporary } from '@data/protocols/code-temporary';
 
 export const makeCodeTemporaryService = (): ICodeTemporary => {
   class CodeTemporaryServiceStub implements ICodeTemporary {

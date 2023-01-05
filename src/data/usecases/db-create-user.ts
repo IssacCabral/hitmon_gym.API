@@ -1,10 +1,7 @@
 import { BusinessError } from '@domain/errors/business-error';
 import { Inject } from '@nestjs/common';
-import {
-  CreateUserParams,
-  CreateUserReturns,
-} from 'src/domain/types/user-params';
-import { ICreateUserUseCase } from 'src/domain/usecases/create-user';
+import { CreateUserParams, CreateUserReturns } from '@domain/types/user-params';
+import { ICreateUserUseCase } from '@domain/usecases/create-user';
 import {
   CODE_TEMPORARY_SERVICE,
   HASH_SERVICE,

@@ -1,4 +1,4 @@
-import { IHash } from 'src/data/protocols/hash';
+import { IHash } from '@data/protocols/hash';
 
 export const makeHashService = (): IHash => {
   class HashServiceStub implements IHash {

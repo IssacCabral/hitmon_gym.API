@@ -1,5 +1,5 @@
 import { UpdateUserParams } from '@domain/types/user-params';
-import { IUser } from 'src/domain/entities/user';
+import { IUser } from '@domain/entities/user';
 
 export type createUserRepositoryParams = {
   email: string;
