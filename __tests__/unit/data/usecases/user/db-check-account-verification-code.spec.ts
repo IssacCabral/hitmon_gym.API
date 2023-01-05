@@ -109,4 +109,22 @@ describe('# UseCase - check account verification code', () => {
       new BusinessError('Expired code', 401),
     );
   });
+
+  it('Should call repository to update user with correct values', async () => {
+    const { usecase, repository } = makeSut();
+
+    jest.spyOn(repository, 'findUserById').mockResolvedValueOnce({
+      id: 'any_id',
+      accountVerificationCode: '123456',
+    } as IUser);
+
+    const updateRepoSpy = jest.spyOn(repository, 'updateUser');
+    await usecase.execute('123456', 'any_id');
+
+    expect(updateRepoSpy).toHaveBeenCalledWith('any_id', {
+      accountVerificationCode: null,
+      accountVerificationCodeExpiresAt: null,
+      registrationStep: RegistrationStep.VERIFIED,
+    });
+  });
 });
