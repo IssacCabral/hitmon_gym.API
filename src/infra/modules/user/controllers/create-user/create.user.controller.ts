@@ -23,6 +23,7 @@ export class CreateUserController {
       const user = await this.createUserUseCase.execute(createUserDto);
       return user;
     } catch (error) {
+      console.log(error);
       if (error instanceof BusinessError) {
         //throw new HttpException(error.message, error.statusCode);
         throw new BadRequestException(error.message, {

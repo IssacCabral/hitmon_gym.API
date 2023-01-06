@@ -1,19 +1,8 @@
 import { Module } from '@nestjs/common';
 import { CreateUserController } from './create.user.controller';
-import { DatabaseModule } from '@infra/database/database.module';
-import { PrismaUserRepository } from '@infra/database/prisma/repositories/prisma.user.repository';
 import { DbCreateUserUseCase } from '@data/usecases/db-create-user';
-import { BcryptHashAdapter } from '@infra/protocols/hash/bcrypt.hash.adapter';
-import { NodeMailerAdapter } from '@infra/protocols/mail/mail';
-import { CodeTemporary } from '@infra/protocols/code-temporary/code-temporary';
-import {
-  CODE_TEMPORARY_SERVICE,
-  CREATE_USER_USE_CASE,
-  HASH_SERVICE,
-  MAIL_SERVICE,
-  USER_REPOSITORY,
-} from '../../user.providers';
-import { DbCreateUserUseCaseModule } from './usecase.module';
+import { CREATE_USER_USE_CASE } from '../../user.providers';
+import { DbCreateUserUseCaseModule } from './usecase-module/db.usecase.module';
 
 // @Module({
 //   imports: [DatabaseModule],

@@ -1,6 +1,13 @@
 import { BusinessError } from '@domain/errors/business-error';
 import { ICheckAccountVerificationCodeUseCase } from '@domain/usecases/check-account-verification-code';
-import { Controller, HttpException, Inject, Param, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Controller,
+  HttpException,
+  Inject,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { CHECK_ACCOUNT_VERIFICATION_CODE_USE_CASE } from '../../user.providers';
 import { CheckAccountVerificationCodeDto } from './dtos/check.account.verification.code.dto';
 
@@ -23,9 +30,12 @@ export class VerificationCodeController {
       );
     } catch (error) {
       if (error instanceof BusinessError) {
-        throw new HttpException(error.message, error.statusCode);
+        throw new BadRequestException(error.message, {
+          cause: error,
+          description: error.name,
+        });
       }
-      throw error;
+      throw new BadRequestException(error);
     }
   }
 }

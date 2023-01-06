@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { VerificationCodeController } from './verification.code.controller';
+import { VerificationCodeController } from './verification-code.controller';
 
 describe('VerificationCodeController', () => {
   let controller: VerificationCodeController;

@@ -1,4 +1,3 @@
-import { DbCreateUserUseCase } from '@data/usecases/db-create-user';
 import { DatabaseModule } from '@infra/database/database.module';
 import { PrismaUserRepository } from '@infra/database/prisma/repositories/prisma.user.repository';
 import { CodeTemporary } from '@infra/protocols/code-temporary/code-temporary';
@@ -7,11 +6,10 @@ import { NodeMailerAdapter } from '@infra/protocols/mail/mail';
 import { Module, Provider } from '@nestjs/common';
 import {
   CODE_TEMPORARY_SERVICE,
-  CREATE_USER_USE_CASE,
   HASH_SERVICE,
   MAIL_SERVICE,
   USER_REPOSITORY,
-} from '../../user.providers';
+} from '../../../user.providers';
 
 // const service: Provider = {
 //   provide: CREATE_USER_USE_CASE,
