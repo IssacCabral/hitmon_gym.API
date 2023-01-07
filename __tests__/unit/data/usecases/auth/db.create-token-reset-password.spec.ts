@@ -114,4 +114,38 @@ describe('# UseCase - create token reset password', () => {
       passwordResetCodeExpiresAt: new Date('2020-12-22T13:33:18.781Z'),
     });
   });
+
+  it('Should throw if mailService throws', async () => {
+    const { usecase, mailService, repository } = makeSut();
+
+    jest.spyOn(repository, 'findUserByEmail').mockResolvedValueOnce(userMock);
+
+    jest.spyOn(mailService, 'sendEmail').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    const promise = usecase.execute('any_email');
+    await expect(promise).rejects.toThrow();
+  });
+
+  it('Should call mailService with correct values', async () => {
+    const { usecase, mailService, repository } = makeSut();
+    const mailServiceSpy = jest.spyOn(mailService, 'sendEmail');
+
+    jest.spyOn(repository, 'findUserByEmail').mockResolvedValueOnce({
+      ...userMock,
+      accountVerificationCode: '12345678',
+    });
+
+    await usecase.execute('any_email');
+
+    expect(mailServiceSpy).toHaveBeenCalledWith({
+      to: 'issac@email.com',
+      subject: 'Reset your password',
+      body: {
+        template: 'forgot-password',
+        code: '12345678',
+      },
+    });
+  });
 });
