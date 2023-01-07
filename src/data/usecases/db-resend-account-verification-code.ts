@@ -1,6 +1,7 @@
 import { ICodeTemporary } from '@data/protocols/code-temporary';
 import { IMail } from '@data/protocols/mail';
 import { IUserRepository } from '@data/repositories/user-repository';
+import { RegistrationStep } from '@domain/entities/user';
 import { BusinessError } from '@domain/errors/business-error';
 import { IResendAccountVerificationCodeUseCase } from '@domain/usecases/resend-account-verification-code';
 import {
@@ -29,6 +30,10 @@ export class DbResendAccountVerificationCodeUseCase
       throw new BusinessError('User is not found', 404);
     }
 
+    if (user.registrationStep == RegistrationStep.VERIFIED) {
+      throw new BusinessError('User is already verified');
+    }
+
     const accountVerificationCode =
       await this.codeTemporaryService.generateCode();
     const accountVerificationCodeExpiresAt = new Date();
@@ -47,7 +52,7 @@ export class DbResendAccountVerificationCodeUseCase
       subject: 'Confirm your account',
       body: {
         template: 'confirm-account',
-        code: user.accountVerificationCode,
+        code: accountVerificationCode,
       },
     });
   }

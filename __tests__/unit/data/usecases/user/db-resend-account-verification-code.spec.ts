@@ -2,7 +2,7 @@ import { ICodeTemporary } from '@data/protocols/code-temporary';
 import { IMail } from '@data/protocols/mail';
 import { IUserRepository } from '@data/repositories/user-repository';
 import { DbResendAccountVerificationCodeUseCase } from '@data/usecases/db-resend-account-verification-code';
-import { IUser } from '@domain/entities/user';
+import { IUser, RegistrationStep } from '@domain/entities/user';
 import { BusinessError } from '@domain/errors/business-error';
 import { userMock } from '@tests/mocks/entities/user-mock';
 import { makeUserRepository } from '@tests/mocks/repository/user-mock-repository';
@@ -40,6 +40,18 @@ describe('# UseCase - resend account verification code', () => {
     const promise = usecase.execute('any_email');
     await expect(promise).rejects.toThrowError(
       new BusinessError('User is not found', 404),
+    );
+  });
+
+  it('Should throw a BusinessError if user is already verified', async () => {
+    const { usecase, repository } = makeSut();
+    jest.spyOn(repository, 'findUserByEmail').mockResolvedValueOnce({
+      ...userMock,
+      registrationStep: RegistrationStep.VERIFIED,
+    });
+    const promise = usecase.execute('any_email');
+    await expect(promise).rejects.toThrowError(
+      new BusinessError('User is already verified'),
     );
   });
 
