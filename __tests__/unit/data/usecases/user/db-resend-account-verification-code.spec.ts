@@ -2,7 +2,9 @@ import { ICodeTemporary } from '@data/protocols/code-temporary';
 import { IMail } from '@data/protocols/mail';
 import { IUserRepository } from '@data/repositories/user-repository';
 import { DbResendAccountVerificationCodeUseCase } from '@data/usecases/db-resend-account-verification-code';
+import { IUser } from '@domain/entities/user';
 import { BusinessError } from '@domain/errors/business-error';
+import { userMock } from '@tests/mocks/entities/user-mock';
 import { makeUserRepository } from '@tests/mocks/repository/user-mock-repository';
 import { makeCodeTemporaryService } from '@tests/mocks/usecase/protocols/code-temporary-mock';
 import { makeMailService } from '@tests/mocks/usecase/protocols/mail-mock';
@@ -48,5 +50,14 @@ describe('# UseCase - resend account verification code', () => {
     });
     const promise = usecase.execute('any_email');
     await expect(promise).rejects.toThrow();
+  });
+
+  it('Should call findUserByEmail with correct email', async () => {
+    const { usecase, repository } = makeSut();
+    const findByEmailSpy = jest
+      .spyOn(repository, 'findUserByEmail')
+      .mockResolvedValueOnce(userMock);
+    await usecase.execute('any_email');
+    expect(findByEmailSpy).toHaveBeenCalledWith('any_email');
   });
 });
