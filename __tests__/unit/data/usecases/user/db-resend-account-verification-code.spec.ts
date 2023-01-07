@@ -88,4 +88,16 @@ describe('# UseCase - resend account verification code', () => {
     const promise = usecase.execute('any_email');
     await expect(promise).rejects.toThrow();
   });
+
+  it('Should updateUser to have been called', async () => {
+    const { usecase, repository } = makeSut();
+
+    jest.spyOn(repository, 'findUserByEmail').mockResolvedValueOnce(userMock);
+
+    const updateUserSpy = jest.spyOn(repository, 'updateUser');
+
+    await usecase.execute('any_email');
+
+    expect(updateUserSpy).toHaveBeenCalled();
+  });
 });
