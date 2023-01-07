@@ -40,4 +40,13 @@ describe('# UseCase - resend account verification code', () => {
       new BusinessError('User is not found', 404),
     );
   });
+
+  it('Should throw if findUserByEmail throws', async () => {
+    const { usecase, repository } = makeSut();
+    jest.spyOn(repository, 'findUserByEmail').mockImplementationOnce(() => {
+      throw new Error();
+    });
+    const promise = usecase.execute('any_email');
+    await expect(promise).rejects.toThrow();
+  });
 });
