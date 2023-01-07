@@ -108,11 +108,45 @@ describe('# UseCase - resend account verification code', () => {
     jest.useFakeTimers().setSystemTime(new Date('2020-12-22T13:30:18.781Z'));
     const updateUserSpy = jest.spyOn(repository, 'updateUser');
 
-    await usecase.execute('issac@email.com');
+    await usecase.execute('any_email');
 
     expect(updateUserSpy).toHaveBeenCalledWith('1', {
       accountVerificationCode: '12345678',
       accountVerificationCodeExpiresAt: new Date('2020-12-22T13:33:18.781Z'),
+    });
+  });
+
+  it('Should throw if mailService throws', async () => {
+    const { usecase, mailService, repository } = makeSut();
+
+    jest.spyOn(repository, 'findUserByEmail').mockResolvedValueOnce(userMock);
+
+    jest.spyOn(mailService, 'sendEmail').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    const promise = usecase.execute('any_email');
+    await expect(promise).rejects.toThrow();
+  });
+
+  it('Should call mailService with correct values', async () => {
+    const { usecase, mailService, repository } = makeSut();
+    const mailServiceSpy = jest.spyOn(mailService, 'sendEmail');
+
+    jest.spyOn(repository, 'findUserByEmail').mockResolvedValueOnce({
+      ...userMock,
+      accountVerificationCode: '12345678',
+    });
+
+    await usecase.execute('any_email');
+
+    expect(mailServiceSpy).toHaveBeenCalledWith({
+      to: 'issac@email.com',
+      subject: 'Confirm your account',
+      body: {
+        template: 'confirm-account',
+        code: '12345678',
+      },
     });
   });
 });
