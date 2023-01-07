@@ -62,4 +62,18 @@ describe('# UseCase - reset password', () => {
     const promise = usecase.execute(request);
     await expect(promise).rejects.toThrow();
   });
+
+  it('Should call findUserByPasswordResetCode with correct values', async () => {
+    const { usecase, repository } = makeSut();
+    const findByPasswordResetCode = jest.spyOn(
+      repository,
+      'findUserByPasswordResetCode',
+    );
+
+    await usecase.execute(request);
+    expect(findByPasswordResetCode).toHaveBeenCalledWith(
+      '12345678',
+      'any_email',
+    );
+  });
 });
