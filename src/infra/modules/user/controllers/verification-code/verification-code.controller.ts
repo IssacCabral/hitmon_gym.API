@@ -30,10 +30,7 @@ export class VerificationCodeController {
       );
     } catch (error) {
       if (error instanceof BusinessError) {
-        throw new BadRequestException(error.message, {
-          cause: error,
-          description: error.name,
-        });
+        throw new HttpException(error.message, error.statusCode);
       }
       throw new BadRequestException(error);
     }
