@@ -74,4 +74,16 @@ export class PrismaUserRepository implements IUserRepository {
 
     return updatedUser as IUser;
   }
+
+  async findUserByPasswordResetCode(
+    code: string,
+    email: string,
+  ): Promise<IUser> {
+    return (await this.prismaService.user.findFirst({
+      where: {
+        email,
+        passwordResetCode: code,
+      },
+    })) as IUser;
+  }
 }

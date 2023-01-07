@@ -26,6 +26,9 @@ model User {
   accountVerificationCode          String?   @map("account_verification_code") @db.VarChar(6)
   accountVerificationCodeExpiresAt DateTime? @map("account_verification_code_expires_at")
 
+  passwordResetCode          String?   @map("password_reset_code") @db.VarChar(6)
+  passwordResetCodeExpiresAt DateTime? @map("password_reset_code_expires_at")
+
   roles Role[] @relation("user_roles")
 
   createdAt DateTime @default(now()) @map("created_at")

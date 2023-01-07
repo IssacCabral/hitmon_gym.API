@@ -1,5 +1,5 @@
 import { BusinessError } from '@domain/errors/business-error';
-import { IResendAccountVerificationCodeUseCase } from '@domain/usecases/resend-account-verification-code';
+import { IResendAccountVerificationCodeUseCase } from '@domain/usecases/user/resend-account-verification-code';
 import {
   BadRequestException,
   Body,

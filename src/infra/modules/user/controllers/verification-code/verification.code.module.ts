@@ -1,4 +1,4 @@
-import { DbCheckAccountVerificationCodeUseCase } from '@data/usecases/db-check-account-verification-code';
+import { DbCheckAccountVerificationCodeUseCase } from '@data/usecases/user/db-check-account-verification-code';
 import { Module } from '@nestjs/common';
 import { CHECK_ACCOUNT_VERIFICATION_CODE_USE_CASE } from '../../user.providers';
 import { DbCheckAccountVerificationCodeUseCaseModule } from './usecase-module/db.usecase.module';

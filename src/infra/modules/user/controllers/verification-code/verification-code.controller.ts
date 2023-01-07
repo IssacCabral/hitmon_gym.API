@@ -1,5 +1,5 @@
 import { BusinessError } from '@domain/errors/business-error';
-import { ICheckAccountVerificationCodeUseCase } from '@domain/usecases/check-account-verification-code';
+import { ICheckAccountVerificationCodeUseCase } from '@domain/usecases/user/check-account-verification-code';
 import {
   BadRequestException,
   Controller,
@@ -29,6 +29,7 @@ export class VerificationCodeController {
         userId,
       );
     } catch (error) {
+      console.log(error);
       if (error instanceof BusinessError) {
         throw new HttpException(error.message, error.statusCode);
       }

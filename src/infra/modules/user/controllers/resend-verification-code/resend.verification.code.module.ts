@@ -1,4 +1,4 @@
-import { DbResendAccountVerificationCodeUseCase } from '@data/usecases/db-resend-account-verification-code';
+import { DbResendAccountVerificationCodeUseCase } from '@data/usecases/user/db-resend-account-verification-code';
 import { Module } from '@nestjs/common';
 import { RESEND_ACCOUNT_VERIFICATION_CODE_USE_CASE } from '../../user.providers';
 import { ResendVerificationCodeController } from './resend-verification-code.controller';

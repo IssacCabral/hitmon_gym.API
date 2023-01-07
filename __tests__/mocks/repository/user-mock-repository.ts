@@ -20,6 +20,9 @@ export const makeUserRepository = (): IUserRepository => {
     updateUser(id: string, params: UpdateUserParams): Promise<IUser> {
       return Promise.resolve(userMock);
     }
+    findUserByPasswordResetCode(code: string, email: string): Promise<IUser> {
+      return Promise.resolve(userMock);
+    }
   }
   return new UserRepositoryStub();
 };

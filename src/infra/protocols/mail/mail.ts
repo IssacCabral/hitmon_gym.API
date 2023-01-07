@@ -18,16 +18,22 @@ const mailerTransporter: Transporter = nodemailer.createTransport({
 @Injectable()
 export class NodeMailerAdapter implements IMail {
   async sendEmail(sendEmailParams: SendEmailParams): Promise<void> {
+    const templateFile = sendEmailParams.body.template;
+
+    console.log(sendEmailParams.body.code);
+
     const templateMail = await ejs.renderFile(
-      'views/mails/confirm-account.ejs',
+      `views/mails/${templateFile}.ejs`,
       { code: sendEmailParams.body.code },
     );
+
     await mailerTransporter.sendMail({
       from: env.SMTP_FROM,
       to: sendEmailParams.to,
       subject: sendEmailParams.subject,
       html: templateMail,
     });
+
     console.log(
       `a new email ${sendEmailParams.subject} has been sent to ${sendEmailParams.to}`,
     );

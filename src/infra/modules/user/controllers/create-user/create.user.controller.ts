@@ -6,7 +6,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
-import { ICreateUserUseCase } from '@domain/usecases/create-user';
+import { ICreateUserUseCase } from '@domain/usecases/user/create-user';
 import { CREATE_USER_USE_CASE } from '../../user.providers';
 import { BusinessError } from '@domain/errors/business-error';
 

@@ -22,4 +22,6 @@ export type UpdateUserParams = {
   registrationStep?: RegistrationStep;
   accountVerificationCode?: string;
   accountVerificationCodeExpiresAt?: Date;
+  passwordResetCode?: string;
+  passwordResetCodeExpiresAt?: Date;
 };
