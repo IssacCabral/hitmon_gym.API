@@ -60,4 +60,32 @@ describe('# UseCase - resend account verification code', () => {
     await usecase.execute('any_email');
     expect(findByEmailSpy).toHaveBeenCalledWith('any_email');
   });
+
+  it('Should codeTemporaryService to have been called', async () => {
+    const { usecase, codeTemporaryService, repository } = makeSut();
+    const codeTemporaryServiceSpy = jest.spyOn(
+      codeTemporaryService,
+      'generateCode',
+    );
+
+    jest.spyOn(repository, 'findUserByEmail').mockResolvedValueOnce(userMock);
+
+    await usecase.execute('any_email');
+    expect(codeTemporaryServiceSpy).toHaveBeenCalled();
+  });
+
+  it('Should throw if codeTemporaryService throws', async () => {
+    const { usecase, codeTemporaryService, repository } = makeSut();
+
+    jest.spyOn(repository, 'findUserByEmail').mockResolvedValueOnce(userMock);
+
+    jest
+      .spyOn(codeTemporaryService, 'generateCode')
+      .mockImplementationOnce(() => {
+        throw new Error();
+      });
+
+    const promise = usecase.execute('any_email');
+    await expect(promise).rejects.toThrow();
+  });
 });
