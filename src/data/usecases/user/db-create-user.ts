@@ -1,17 +1,17 @@
 import { BusinessError } from '@domain/errors/business-error';
 import { Inject } from '@nestjs/common';
 import { CreateUserParams, CreateUserReturns } from '@domain/types/user-params';
-import { ICreateUserUseCase } from '@domain/usecases/create-user';
+import { ICreateUserUseCase } from '@domain/usecases/user/create-user';
 import {
   CODE_TEMPORARY_SERVICE,
   HASH_SERVICE,
   MAIL_SERVICE,
   USER_REPOSITORY,
-} from '../../infra/modules/user/user.providers';
-import { ICodeTemporary } from '../protocols/code-temporary';
-import { IHash } from '../protocols/hash';
-import { IMail } from '../protocols/mail';
-import { IUserRepository } from '../repositories/user-repository';
+} from '@infra/modules/user/user.providers';
+import { ICodeTemporary } from '@data/protocols/code-temporary';
+import { IHash } from '@data/protocols/hash';
+import { IMail } from '@data/protocols/mail';
+import { IUserRepository } from '@data/repositories/user-repository';
 
 export class DbCreateUserUseCase implements ICreateUserUseCase {
   constructor(

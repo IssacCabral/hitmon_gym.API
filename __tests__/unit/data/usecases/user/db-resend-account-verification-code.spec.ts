@@ -1,7 +1,7 @@
 import { ICodeTemporary } from '@data/protocols/code-temporary';
 import { IMail } from '@data/protocols/mail';
 import { IUserRepository } from '@data/repositories/user-repository';
-import { DbResendAccountVerificationCodeUseCase } from '@data/usecases/db-resend-account-verification-code';
+import { DbResendAccountVerificationCodeUseCase } from '@data/usecases/user/db-resend-account-verification-code';
 import { IUser, RegistrationStep } from '@domain/entities/user';
 import { BusinessError } from '@domain/errors/business-error';
 import { userMock } from '@tests/mocks/entities/user-mock';

@@ -1,6 +1,6 @@
 import { IDate } from '@data/protocols/date';
 import { IUserRepository } from '@data/repositories/user-repository';
-import { DbCheckAccountVerificationCodeUseCase } from '@data/usecases/db-check-account-verification-code';
+import { DbCheckAccountVerificationCodeUseCase } from '@data/usecases/user/db-check-account-verification-code';
 import { IUser, RegistrationStep } from '@domain/entities/user';
 import { BusinessError } from '@domain/errors/business-error';
 import { roleMock } from '@tests/mocks/entities/role-mock';

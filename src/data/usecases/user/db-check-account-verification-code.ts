@@ -2,7 +2,7 @@ import { IDate } from '@data/protocols/date';
 import { IUserRepository } from '@data/repositories/user-repository';
 import { IUser, RegistrationStep } from '@domain/entities/user';
 import { BusinessError } from '@domain/errors/business-error';
-import { ICheckAccountVerificationCodeUseCase } from '@domain/usecases/check-account-verification-code';
+import { ICheckAccountVerificationCodeUseCase } from '@domain/usecases/user/check-account-verification-code';
 import { Inject } from '@nestjs/common';
 import {
   DATE_SERVICE,

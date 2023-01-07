@@ -14,4 +14,6 @@ export interface IUser extends IBaseEntity {
   registrationStep: RegistrationStep;
   accountVerificationCode?: string;
   accountVerificationCodeExpiresAt?: Date;
+  passwordResetCode?: string;
+  passwordResetCodeExpiresAt?: Date;
 }

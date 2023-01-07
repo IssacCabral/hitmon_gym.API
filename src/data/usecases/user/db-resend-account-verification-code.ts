@@ -3,7 +3,7 @@ import { IMail } from '@data/protocols/mail';
 import { IUserRepository } from '@data/repositories/user-repository';
 import { RegistrationStep } from '@domain/entities/user';
 import { BusinessError } from '@domain/errors/business-error';
-import { IResendAccountVerificationCodeUseCase } from '@domain/usecases/resend-account-verification-code';
+import { IResendAccountVerificationCodeUseCase } from '@domain/usecases/user/resend-account-verification-code';
 import {
   CODE_TEMPORARY_SERVICE,
   MAIL_SERVICE,

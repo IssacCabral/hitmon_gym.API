@@ -10,7 +10,7 @@ import { ICodeTemporary } from '@data/protocols/code-temporary';
 import { IHash } from '@data/protocols/hash';
 import { IMail } from '@data/protocols/mail';
 import { IUserRepository } from '@data/repositories/user-repository';
-import { DbCreateUserUseCase } from '@data/usecases/db-create-user';
+import { DbCreateUserUseCase } from '@data/usecases/user/db-create-user';
 import { RoleTypes } from '@domain/entities/role';
 import { BusinessError } from '@domain/errors/business-error';
 
