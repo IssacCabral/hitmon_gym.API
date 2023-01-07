@@ -99,4 +99,19 @@ describe('# UseCase - create token reset password', () => {
 
     expect(updateUserSpy).toHaveBeenCalled();
   });
+
+  it('Should updateUser to have been called with correct values', async () => {
+    const { usecase, repository } = makeSut();
+
+    jest.spyOn(repository, 'findUserByEmail').mockResolvedValueOnce(userMock);
+    jest.useFakeTimers().setSystemTime(new Date('2020-12-22T13:30:18.781Z'));
+    const updateUserSpy = jest.spyOn(repository, 'updateUser');
+
+    await usecase.execute('any_email');
+
+    expect(updateUserSpy).toHaveBeenCalledWith('1', {
+      passwordResetCode: '12345678',
+      passwordResetCodeExpiresAt: new Date('2020-12-22T13:33:18.781Z'),
+    });
+  });
 });
