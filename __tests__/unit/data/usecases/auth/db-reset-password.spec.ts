@@ -77,16 +77,6 @@ describe('# UseCase - reset password', () => {
     );
   });
 
-  it('Should throw if hashService throws', async () => {
-    const { usecase, repository, hashService } = makeSut();
-
-    jest.spyOn(hashService, 'generateHash').mockImplementationOnce(() => {
-      throw new Error();
-    });
-    const promise = usecase.execute(request);
-    await expect(promise).rejects.toThrow();
-  });
-
   it('Should throw if dateService throws', async () => {
     const { dateService, usecase } = makeSut();
 
@@ -97,7 +87,7 @@ describe('# UseCase - reset password', () => {
   });
 
   it('Should throw a BusinessError if code is expired', async () => {
-    const { usecase, repository, dateService } = makeSut();
+    const { usecase } = makeSut();
 
     jest.spyOn(usecase, 'isNotExpired' as any).mockReturnValueOnce(false);
 
@@ -108,6 +98,16 @@ describe('# UseCase - reset password', () => {
     );
   });
 
+  it('Should throw if hashService throws', async () => {
+    const { usecase, hashService } = makeSut();
+
+    jest.spyOn(hashService, 'generateHash').mockImplementationOnce(() => {
+      throw new Error();
+    });
+    const promise = usecase.execute(request);
+    await expect(promise).rejects.toThrow();
+  });
+
   it('Should call hashService with correct password', async () => {
     const { usecase, hashService } = makeSut();
 
@@ -116,6 +116,17 @@ describe('# UseCase - reset password', () => {
     await usecase.execute(request);
 
     expect(hashServiceSpy).toHaveBeenCalledWith('new_pass');
+  });
+
+  it('Should throw if updateUser throws', async () => {
+    const { usecase, repository } = makeSut();
+
+    jest.spyOn(repository, 'updateUser').mockImplementationOnce(() => {
+      throw new Error();
+    });
+
+    const promise = usecase.execute(request);
+    await expect(promise).rejects.toThrow();
   });
 
   it('Should call repository to update new password', async () => {
