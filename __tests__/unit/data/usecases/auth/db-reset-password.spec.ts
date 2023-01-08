@@ -107,4 +107,27 @@ describe('# UseCase - reset password', () => {
       new BusinessError('Expired code', 401),
     );
   });
+
+  it('Should call hashService with correct password', async () => {
+    const { usecase, hashService } = makeSut();
+
+    const hashServiceSpy = jest.spyOn(hashService, 'generateHash');
+
+    await usecase.execute(request);
+
+    expect(hashServiceSpy).toHaveBeenCalledWith('new_pass');
+  });
+
+  it('Should call repository to update new password', async () => {
+    const { usecase, repository } = makeSut();
+    const updateUserSpy = jest.spyOn(repository, 'updateUser');
+
+    await usecase.execute(request);
+
+    expect(updateUserSpy).toHaveBeenCalledWith('1', {
+      password: 'hashed_value',
+      passwordResetCode: null,
+      passwordResetCodeExpiresAt: null,
+    });
+  });
 });
