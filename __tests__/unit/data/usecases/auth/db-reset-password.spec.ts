@@ -76,4 +76,14 @@ describe('# UseCase - reset password', () => {
       'any_email',
     );
   });
+
+  it('Should throw if hashService throws', async () => {
+    const { usecase, repository, hashService } = makeSut();
+
+    jest.spyOn(hashService, 'generateHash').mockImplementationOnce(() => {
+      throw new Error();
+    });
+    const promise = usecase.execute(request);
+    await expect(promise).rejects.toThrow();
+  });
 });

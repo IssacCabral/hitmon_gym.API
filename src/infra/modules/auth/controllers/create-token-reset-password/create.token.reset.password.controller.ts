@@ -7,7 +7,6 @@ import {
   HttpException,
   Inject,
   Patch,
-  Post,
 } from '@nestjs/common';
 import { CREATE_TOKEN_RESET_PASSWORD_USE_CASE } from '../../auth.providers';
 import { CreateTokenResetPasswordDto } from './dtos/create.token.reset.password.dto';
