@@ -86,4 +86,13 @@ describe('# UseCase - reset password', () => {
     const promise = usecase.execute(request);
     await expect(promise).rejects.toThrow();
   });
+
+  it('Should throw if dateService throws', async () => {
+    const { dateService, usecase } = makeSut();
+
+    jest.spyOn(dateService, 'checkIfAfter').mockReturnValueOnce(false);
+
+    const promise = usecase.execute(request);
+    await expect(promise).rejects.toThrow();
+  });
 });
