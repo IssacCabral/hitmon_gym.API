@@ -95,4 +95,16 @@ describe('# UseCase - reset password', () => {
     const promise = usecase.execute(request);
     await expect(promise).rejects.toThrow();
   });
+
+  it('Should throw a BusinessError if code is expired', async () => {
+    const { usecase, repository, dateService } = makeSut();
+
+    jest.spyOn(usecase, 'isNotExpired' as any).mockReturnValueOnce(false);
+
+    const promise = usecase.execute(request);
+
+    await expect(promise).rejects.toThrowError(
+      new BusinessError('Expired code', 401),
+    );
+  });
 });
