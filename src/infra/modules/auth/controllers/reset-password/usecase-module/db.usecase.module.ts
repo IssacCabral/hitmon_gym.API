@@ -1,4 +1,5 @@
 import { DatabaseModule } from '@infra/database/database.module';
+import { PrismaService } from '@infra/database/prisma/prisma.service';
 import { PrismaUserRepository } from '@infra/database/prisma/repositories/prisma.user.repository';
 import {
   DATE_SERVICE,
@@ -12,15 +13,22 @@ import { Module, Provider } from '@nestjs/common';
 const providers: Provider[] = [
   {
     provide: USER_REPOSITORY,
-    useClass: PrismaUserRepository,
+    useFactory: (prismaService: PrismaService) => {
+      return new PrismaUserRepository(prismaService);
+    },
+    inject: [{ token: 'PRISMA_SERVICE', optional: false }],
   },
   {
     provide: HASH_SERVICE,
-    useClass: BcryptHashAdapter,
+    useFactory: () => {
+      return new BcryptHashAdapter();
+    },
   },
   {
     provide: DATE_SERVICE,
-    useClass: MomentAdapter,
+    useFactory: () => {
+      return new MomentAdapter();
+    },
   },
 ];
 

@@ -4,20 +4,11 @@ import { IUserRepository } from '@data/repositories/user-repository';
 import { BusinessError } from '@domain/errors/business-error';
 import { ResetPasswordParams } from '@domain/types/reset-password-params';
 import { IResetPasswordUseCase } from '@domain/usecases/auth/reset-password';
-import {
-  DATE_SERVICE,
-  HASH_SERVICE,
-  USER_REPOSITORY,
-} from '@infra/modules/user/user.providers';
-import { Inject } from '@nestjs/common';
 
 export class DbResetPasswordUseCase implements IResetPasswordUseCase {
   constructor(
-    @Inject(USER_REPOSITORY)
     private readonly userRepository: IUserRepository,
-    @Inject(HASH_SERVICE)
     private readonly hashService: IHash,
-    @Inject(DATE_SERVICE)
     private readonly dateService: IDate,
   ) {}
 

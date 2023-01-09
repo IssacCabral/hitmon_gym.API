@@ -1,4 +1,5 @@
 import { DatabaseModule } from '@infra/database/database.module';
+import { PrismaService } from '@infra/database/prisma/prisma.service';
 import { PrismaUserRepository } from '@infra/database/prisma/repositories/prisma.user.repository';
 import {
   CODE_TEMPORARY_SERVICE,
@@ -12,15 +13,22 @@ import { Module, Provider } from '@nestjs/common';
 const providers: Provider[] = [
   {
     provide: USER_REPOSITORY,
-    useClass: PrismaUserRepository,
+    useFactory: (prismaService: PrismaService) => {
+      return new PrismaUserRepository(prismaService);
+    },
+    inject: [{ token: 'PRISMA_SERVICE', optional: false }],
   },
   {
     provide: MAIL_SERVICE,
-    useClass: NodeMailerAdapter,
+    useFactory: () => {
+      return new NodeMailerAdapter();
+    },
   },
   {
     provide: CODE_TEMPORARY_SERVICE,
-    useClass: CodeTemporary,
+    useFactory: () => {
+      return new CodeTemporary();
+    },
   },
 ];
 

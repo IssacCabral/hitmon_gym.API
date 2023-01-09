@@ -1,4 +1,5 @@
 import { DatabaseModule } from '@infra/database/database.module';
+import { PrismaService } from '@infra/database/prisma/prisma.service';
 import { PrismaUserRepository } from '@infra/database/prisma/repositories/prisma.user.repository';
 import { CodeTemporary } from '@infra/protocols/code-temporary/code-temporary';
 import { BcryptHashAdapter } from '@infra/protocols/hash/bcrypt.hash.adapter';
@@ -14,19 +15,28 @@ import {
 const providers: Provider[] = [
   {
     provide: USER_REPOSITORY,
-    useClass: PrismaUserRepository,
+    useFactory: (prismaService: PrismaService) => {
+      return new PrismaUserRepository(prismaService);
+    },
+    inject: [{ token: 'PRISMA_SERVICE', optional: false }],
   },
   {
     provide: HASH_SERVICE,
-    useClass: BcryptHashAdapter,
+    useFactory: () => {
+      return new BcryptHashAdapter();
+    },
   },
   {
     provide: MAIL_SERVICE,
-    useClass: NodeMailerAdapter,
+    useFactory: () => {
+      return new NodeMailerAdapter();
+    },
   },
   {
     provide: CODE_TEMPORARY_SERVICE,
-    useClass: CodeTemporary,
+    useFactory: () => {
+      return new CodeTemporary();
+    },
   },
 ];
 

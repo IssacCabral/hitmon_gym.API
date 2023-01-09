@@ -3,19 +3,12 @@ import { IUserRepository } from '@data/repositories/user-repository';
 import { IUser, RegistrationStep } from '@domain/entities/user';
 import { BusinessError } from '@domain/errors/business-error';
 import { ICheckAccountVerificationCodeUseCase } from '@domain/usecases/user/check-account-verification-code';
-import { Inject } from '@nestjs/common';
-import {
-  DATE_SERVICE,
-  USER_REPOSITORY,
-} from '@infra/modules/user/user.providers';
 
 export class DbCheckAccountVerificationCodeUseCase
   implements ICheckAccountVerificationCodeUseCase
 {
   constructor(
-    @Inject(USER_REPOSITORY)
     private readonly userRepository: IUserRepository,
-    @Inject(DATE_SERVICE)
     private readonly dateService: IDate,
   ) {}
 
