@@ -12,5 +12,3 @@ import { ResendVerificationCodeModule } from './controllers/resend-verification-
   exports: [UserModule],
 })
 export class UserModule {}
-
-console.log('ola');
