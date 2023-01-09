@@ -2,7 +2,10 @@ import { DatabaseModule } from '@infra/database/database.module';
 import { PrismaUserRepository } from '@infra/database/prisma/repositories/prisma.user.repository';
 import { MomentAdapter } from '@infra/protocols/date/moment-adapter';
 import { Module, Provider } from '@nestjs/common';
-import { DATE_SERVICE, USER_REPOSITORY } from '../../../user.providers';
+import {
+  DATE_SERVICE,
+  USER_REPOSITORY,
+} from '@infra/modules/user/user.providers';
 
 const providers: Provider[] = [
   {
