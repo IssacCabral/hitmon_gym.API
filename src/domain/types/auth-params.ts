@@ -1,3 +1,5 @@
+import { IUser } from '@domain/entities/user';
+
 export type AuthParams = {
   email: string;
   password: string;
@@ -5,7 +7,5 @@ export type AuthParams = {
 
 export type AuthResult = {
   token: string;
-  user: {
-    email: string;
-  };
+  user: Partial<IUser>;
 };

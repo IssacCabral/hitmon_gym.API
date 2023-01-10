@@ -1,6 +1,7 @@
 import { IHash } from '@data/protocols/hash';
 import { IJwt } from '@data/protocols/jwt';
 import { IUserRepository } from '@data/repositories/user-repository';
+import { IUser } from '@domain/entities/user';
 import { BusinessError } from '@domain/errors/business-error';
 import { AuthParams, AuthResult } from '@domain/types/auth-params';
 import { IAuthUseCase } from '@domain/usecases/auth/auth';
@@ -41,9 +42,16 @@ export class DbAuthUseCase implements IAuthUseCase {
 
     return {
       token,
-      user: {
-        email: user.email,
-      },
+      user: this.mapUserJSON(user),
+    };
+  }
+
+  private mapUserJSON(user: IUser) {
+    return {
+      id: user.id,
+      roles: user.roles,
+      email: user.email,
+      registrationStep: user.registrationStep,
     };
   }
 }
