@@ -42,14 +42,14 @@ describe('# UseCase - authentication', () => {
     );
   });
 
-  // it('Should throw if findUserByEmail throws', async () => {
-  //   const { usecase, repository } = makeSut();
-  //   jest.spyOn(repository, 'findUserByEmail').mockImplementationOnce(() => {
-  //     throw new Error();
-  //   });
-  //   const promise = usecase.execute('any_email');
-  //   await expect(promise).rejects.toThrow();
-  // });
+  it('Should throw if findUserByEmail throws', async () => {
+    const { usecase, repository } = makeSut();
+    jest.spyOn(repository, 'findUserByEmail').mockImplementationOnce(() => {
+      throw new Error();
+    });
+    const promise = usecase.execute(request);
+    await expect(promise).rejects.toThrow();
+  });
 
   // it('Should call findUserByEmail with correct email', async () => {
   //   const { usecase, repository } = makeSut();
