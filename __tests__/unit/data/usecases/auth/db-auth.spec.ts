@@ -77,25 +77,27 @@ describe('# UseCase - authentication', () => {
     );
   });
 
-  // it('Should throw if hashService throws', async () => {
-  //   const { usecase, hashService } = makeSut();
+  it('Should throw if hashService throws', async () => {
+    const { usecase, hashService, repository } = makeSut();
 
-  //   jest.spyOn(hashService, 'generateHash').mockImplementationOnce(() => {
-  //     throw new Error();
-  //   });
-  //   const promise = usecase.execute(request);
-  //   await expect(promise).rejects.toThrow();
-  // });
+    jest.spyOn(repository, 'findUserByEmail').mockResolvedValueOnce(userMock);
+    jest.spyOn(hashService, 'compareHash').mockImplementationOnce(() => {
+      throw new Error();
+    });
+    const promise = usecase.execute(request);
+    await expect(promise).rejects.toThrow();
+  });
 
-  // it('Should call hashService with correct password', async () => {
-  //   const { usecase, hashService } = makeSut();
+  it('Should call hashService with correct values', async () => {
+    const { usecase, hashService, repository } = makeSut();
 
-  //   const hashServiceSpy = jest.spyOn(hashService, 'generateHash');
+    jest.spyOn(repository, 'findUserByEmail').mockResolvedValueOnce(userMock);
+    const hashServiceSpy = jest.spyOn(hashService, 'compareHash');
 
-  //   await usecase.execute(request);
+    await usecase.execute(request);
 
-  //   expect(hashServiceSpy).toHaveBeenCalledWith('new_pass');
-  // });
+    expect(hashServiceSpy).toHaveBeenCalledWith('password', 'hashedpassword');
+  });
 
   // it('Should codeTemporaryService to have been called', async () => {
   //   const { usecase, codeTemporaryService, repository } = makeSut();
