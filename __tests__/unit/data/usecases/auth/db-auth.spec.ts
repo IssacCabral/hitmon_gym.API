@@ -3,6 +3,7 @@ import { IJwt } from '@data/protocols/jwt';
 import { IUserRepository } from '@data/repositories/user-repository';
 import { DbAuthUseCase } from '@data/usecases/auth/db-auth';
 import { BusinessError } from '@domain/errors/business-error';
+import { userMock } from '@tests/mocks/entities/user-mock';
 import { makeUserRepository } from '@tests/mocks/repository/user-mock-repository';
 import { makeHashService } from '@tests/mocks/usecase/protocols/hash-mock';
 import { makeJwtService } from '@tests/mocks/usecase/protocols/jwt-mock';
@@ -51,14 +52,14 @@ describe('# UseCase - authentication', () => {
     await expect(promise).rejects.toThrow();
   });
 
-  // it('Should call findUserByEmail with correct email', async () => {
-  //   const { usecase, repository } = makeSut();
-  //   const findByEmailSpy = jest
-  //     .spyOn(repository, 'findUserByEmail')
-  //     .mockResolvedValueOnce(userMock);
-  //   await usecase.execute('any_email');
-  //   expect(findByEmailSpy).toHaveBeenCalledWith('any_email');
-  // });
+  it('Should call findUserByEmail with correct email', async () => {
+    const { usecase, repository } = makeSut();
+    const findByEmailSpy = jest
+      .spyOn(repository, 'findUserByEmail')
+      .mockResolvedValueOnce(userMock);
+    await usecase.execute(request);
+    expect(findByEmailSpy).toHaveBeenCalledWith('any_email@mail.com');
+  });
 
   // it('Should codeTemporaryService to have been called', async () => {
   //   const { usecase, codeTemporaryService, repository } = makeSut();
