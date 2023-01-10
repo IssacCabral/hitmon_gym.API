@@ -99,6 +99,28 @@ describe('# UseCase - authentication', () => {
     expect(hashServiceSpy).toHaveBeenCalledWith('password', 'hashedpassword');
   });
 
+  it('Should throw if jwtService throws', async () => {
+    const { usecase, jwtService, repository } = makeSut();
+
+    jest.spyOn(repository, 'findUserByEmail').mockResolvedValueOnce(userMock);
+    jest.spyOn(jwtService, 'sign').mockImplementationOnce(() => {
+      throw new Error();
+    });
+    const promise = usecase.execute(request);
+    await expect(promise).rejects.toThrow();
+  });
+
+  it('Should call jwtService with correct values', async () => {
+    const { usecase, jwtService, repository } = makeSut();
+
+    jest.spyOn(repository, 'findUserByEmail').mockResolvedValueOnce(userMock);
+    const jwtServiceSpy = jest.spyOn(jwtService, 'sign');
+
+    await usecase.execute(request);
+
+    expect(jwtServiceSpy).toHaveBeenCalledWith({ id: '1' });
+  });
+
   // it('Should codeTemporaryService to have been called', async () => {
   //   const { usecase, codeTemporaryService, repository } = makeSut();
   //   const codeTemporaryServiceSpy = jest.spyOn(
