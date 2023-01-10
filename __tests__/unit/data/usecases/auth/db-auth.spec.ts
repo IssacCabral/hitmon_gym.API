@@ -38,6 +38,7 @@ describe('# UseCase - authentication', () => {
     const { usecase, repository } = makeSut();
     jest.spyOn(repository, 'findUserByEmail').mockResolvedValueOnce(null);
     const promise = usecase.execute(request);
+
     await expect(promise).rejects.toThrowError(
       new BusinessError('Invalid credentials', 401),
     );
@@ -49,6 +50,7 @@ describe('# UseCase - authentication', () => {
       throw new Error();
     });
     const promise = usecase.execute(request);
+
     await expect(promise).rejects.toThrow();
   });
 
@@ -57,9 +59,43 @@ describe('# UseCase - authentication', () => {
     const findByEmailSpy = jest
       .spyOn(repository, 'findUserByEmail')
       .mockResolvedValueOnce(userMock);
+
     await usecase.execute(request);
+
     expect(findByEmailSpy).toHaveBeenCalledWith('any_email@mail.com');
   });
+
+  it('Should throw a BusinessError if password if invalid', async () => {
+    const { usecase, repository, hashService } = makeSut();
+
+    jest.spyOn(repository, 'findUserByEmail').mockResolvedValueOnce(userMock);
+    jest.spyOn(hashService, 'compareHash').mockResolvedValueOnce(false);
+
+    const promise = usecase.execute(request);
+    await expect(promise).rejects.toThrowError(
+      new BusinessError('Invalid credentials', 401),
+    );
+  });
+
+  // it('Should throw if hashService throws', async () => {
+  //   const { usecase, hashService } = makeSut();
+
+  //   jest.spyOn(hashService, 'generateHash').mockImplementationOnce(() => {
+  //     throw new Error();
+  //   });
+  //   const promise = usecase.execute(request);
+  //   await expect(promise).rejects.toThrow();
+  // });
+
+  // it('Should call hashService with correct password', async () => {
+  //   const { usecase, hashService } = makeSut();
+
+  //   const hashServiceSpy = jest.spyOn(hashService, 'generateHash');
+
+  //   await usecase.execute(request);
+
+  //   expect(hashServiceSpy).toHaveBeenCalledWith('new_pass');
+  // });
 
   // it('Should codeTemporaryService to have been called', async () => {
   //   const { usecase, codeTemporaryService, repository } = makeSut();
