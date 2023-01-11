@@ -8,6 +8,8 @@ import {
 import { JwtAdapter } from '@infra/protocols/auth/jwt.adapter';
 import { BcryptHashAdapter } from '@infra/protocols/hash/bcrypt.hash.adapter';
 import { Module, Provider } from '@nestjs/common';
+import { JwtModule } from '@nestjs/jwt';
+import { jwtConstants } from '../constants';
 
 const providers: Provider[] = [
   {
@@ -25,7 +27,13 @@ const providers: Provider[] = [
 ];
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [
+    DatabaseModule,
+    JwtModule.register({
+      secret: jwtConstants.secret,
+      signOptions: { expiresIn: '60s' },
+    }),
+  ],
   providers: [...providers],
   exports: [...providers],
 })

@@ -1,5 +1,5 @@
+import { JwtAuthGuard } from '@infra/modules/auth/controllers/authentication/guards/jwt-auth.guard';
 import { Controller, Get, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from 'src/my-auth/guards/jwt-auth.guard';
 
 @Controller('users')
 export class FindUsersController {

@@ -135,7 +135,10 @@ describe('# UseCase - authentication', () => {
 
     await usecase.execute(request);
 
-    expect(jwtServiceSpy).toHaveBeenCalledWith({ id: '1' });
+    expect(jwtServiceSpy).toHaveBeenCalledWith({
+      id: '1',
+      email: 'issac@email.com',
+    });
   });
 
   it('Should return token and user on success', async () => {

@@ -42,7 +42,10 @@ export class DbAuthUseCase implements IAuthUseCase {
       throw new BusinessError(`User isn't already verified`, 401);
     }
 
-    const token = await this.jwtService.sign({ id: user.id });
+    const token = await this.jwtService.sign({
+      id: user.id,
+      email: user.email,
+    });
 
     return {
       token,
