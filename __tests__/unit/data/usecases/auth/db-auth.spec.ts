@@ -2,6 +2,7 @@ import { IHash } from '@data/protocols/hash';
 import { IJwt } from '@data/protocols/jwt';
 import { IUserRepository } from '@data/repositories/user-repository';
 import { DbAuthUseCase } from '@data/usecases/auth/db-auth';
+import { RegistrationStep } from '@domain/entities/user';
 import { BusinessError } from '@domain/errors/business-error';
 import { userMock } from '@tests/mocks/entities/user-mock';
 import { makeUserRepository } from '@tests/mocks/repository/user-mock-repository';
@@ -34,6 +35,8 @@ const request = {
 };
 
 describe('# UseCase - authentication', () => {
+  userMock.registrationStep = RegistrationStep.VERIFIED;
+
   it('Should throw a BusinessError if user is not found', async () => {
     const { usecase, repository } = makeSut();
     jest.spyOn(repository, 'findUserByEmail').mockResolvedValueOnce(null);
@@ -74,6 +77,20 @@ describe('# UseCase - authentication', () => {
     const promise = usecase.execute(request);
     await expect(promise).rejects.toThrowError(
       new BusinessError('Invalid credentials', 401),
+    );
+  });
+
+  it('Should throw a BusinessError if user is not already verified', async () => {
+    const { usecase, repository } = makeSut();
+
+    jest.spyOn(repository, 'findUserByEmail').mockResolvedValueOnce({
+      ...userMock,
+      registrationStep: RegistrationStep.PENDING,
+    });
+
+    const promise = usecase.execute(request);
+    await expect(promise).rejects.toThrowError(
+      new BusinessError(`User isn't already verified`, 401),
     );
   });
 
@@ -118,7 +135,10 @@ describe('# UseCase - authentication', () => {
 
     await usecase.execute(request);
 
-    expect(jwtServiceSpy).toHaveBeenCalledWith({ id: '1' });
+    expect(jwtServiceSpy).toHaveBeenCalledWith({
+      id: '1',
+      email: 'issac@email.com',
+    });
   });
 
   it('Should return token and user on success', async () => {
