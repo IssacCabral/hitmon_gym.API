@@ -7,7 +7,7 @@ import { Injectable } from '@nestjs/common';
 export class JwtAdapter implements IJwt {
   async sign(payload: any): Promise<string> {
     const token = jwt.sign(payload, env.JWT_SECRET_KEY, {
-      expiresIn: '1h',
+      expiresIn: '60s',
     });
     return token;
   }

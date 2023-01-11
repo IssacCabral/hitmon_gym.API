@@ -5,8 +5,13 @@ import { AppController } from './app.controller';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 
+// @Module({
+//   imports: [UserModule, AuthModule, MyAuthModule, MyUserModule],
+//   controllers: [AppController],
+// })
+// export class AppModule {}
+
 @Module({
-  imports: [UserModule, AuthModule, MyAuthModule, MyUserModule],
-  controllers: [AppController],
+  imports: [UserModule, AuthModule],
 })
 export class AppModule {}

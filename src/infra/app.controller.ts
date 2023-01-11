@@ -15,12 +15,14 @@ export class AppController {
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   async login(@Request() req) {
+    console.log(req.user);
     return await this.authService.login(req.user);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('/find-all-users')
-  async findAllUsers() {
+  async findAllUsers(@Request() req) {
+    console.log(req.user);
     return await this.userService.findAll();
   }
 }
