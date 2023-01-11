@@ -1,7 +1,7 @@
 import { IHash } from '@data/protocols/hash';
 import { IJwt } from '@data/protocols/jwt';
 import { IUserRepository } from '@data/repositories/user-repository';
-import { IUser } from '@domain/entities/user';
+import { IUser, RegistrationStep } from '@domain/entities/user';
 import { BusinessError } from '@domain/errors/business-error';
 import { AuthParams, AuthResult } from '@domain/types/auth-params';
 import { IAuthUseCase } from '@domain/usecases/auth/auth';
@@ -36,6 +36,10 @@ export class DbAuthUseCase implements IAuthUseCase {
 
     if (!isValidPassword) {
       throw new BusinessError('Invalid credentials', 401);
+    }
+
+    if (user.registrationStep === RegistrationStep.PENDING) {
+      throw new BusinessError(`User isn't already verified`, 401);
     }
 
     const token = await this.jwtService.sign({ id: user.id });
