@@ -1,5 +1,6 @@
 import { IUserRepository } from '@data/repositories/user-repository';
 import { DbFindUsersUseCase } from '@data/usecases/user/db-find-users';
+import { usersMock } from '@tests/mocks/entities/user-mock';
 import { makeUserRepository } from '@tests/mocks/repository/user-mock-repository';
 
 interface SutTypes {
@@ -38,5 +39,18 @@ describe('# UseCase - find users', () => {
     await usecase.execute(request);
 
     expect(findManySpy).toHaveBeenCalledWith({ page: 1, limit: 1 });
+  });
+
+  it('Should return paginated users', async () => {
+    const { usecase } = makeSut();
+    const result = await usecase.execute(request);
+
+    expect(result).toHaveProperty('data', usersMock);
+    expect(result).toHaveProperty('meta', {
+      page: 1,
+      limit: 1,
+      total: 3,
+      hasNext: true,
+    });
   });
 });
