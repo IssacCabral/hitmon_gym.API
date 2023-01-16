@@ -4,11 +4,11 @@ import {
   PaginationParams,
   PaginationData,
 } from '@domain/types/pagination-params';
-import { IFindUsers } from '@domain/usecases/user/find-users';
+import { IFindUsersUseCase } from '@domain/usecases/user/find-users';
 import { USER_REPOSITORY } from '@infra/modules/user/user.providers';
 import { Inject } from '@nestjs/common';
 
-export class DbFindUsersUseCase implements IFindUsers {
+export class DbFindUsersUseCase implements IFindUsersUseCase {
   constructor(
     @Inject(USER_REPOSITORY)
     private readonly userRepository: IUserRepository,

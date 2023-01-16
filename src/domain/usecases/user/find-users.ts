@@ -4,6 +4,6 @@ import {
   PaginationParams,
 } from '@domain/types/pagination-params';
 
-export interface IFindUsers {
+export interface IFindUsersUseCase {
   execute(pagination: PaginationParams): Promise<PaginationData<IUser>>;
 }
