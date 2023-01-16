@@ -44,6 +44,9 @@ export class PrismaUserRepository implements IUserRepository {
       where: {
         id,
       },
+      include: {
+        roles: true,
+      },
     })) as IUser;
   }
 
