@@ -30,4 +30,13 @@ describe('# UseCase - find users', () => {
     const promise = usecase.execute(request);
     await expect(promise).rejects.toThrow();
   });
+
+  it('Should call findManyUsers with correct values', async () => {
+    const { usecase, repository } = makeSut();
+    const findManySpy = jest.spyOn(repository, 'findManyUsers');
+
+    await usecase.execute(request);
+
+    expect(findManySpy).toHaveBeenCalledWith({ page: 1, limit: 1 });
+  });
 });
