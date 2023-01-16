@@ -1,5 +1,9 @@
 import { UpdateUserParams } from '@domain/types/user-params';
 import { IUser } from '@domain/entities/user';
+import {
+  PaginationData,
+  PaginationParams,
+} from '@domain/types/pagination-params';
 
 export type createUserRepositoryParams = {
   email: string;
@@ -14,6 +18,7 @@ export interface IUserRepository {
   findUserById(id: string): Promise<IUser | null>;
   findUserByEmail(email: string): Promise<IUser | null>;
   findUserByUserName(username: string): Promise<IUser | null>;
+  findManyUsers(pagination: PaginationParams): Promise<PaginationData<IUser>>;
   findUserByPasswordResetCode(
     code: string,
     email: string,
