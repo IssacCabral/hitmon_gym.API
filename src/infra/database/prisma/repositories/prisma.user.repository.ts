@@ -74,6 +74,10 @@ export class PrismaUserRepository implements IUserRepository {
       skip: (pagination.page - 1) * pagination.limit,
     });
 
+    data.forEach((row) => {
+      delete row.password;
+    });
+
     const total = await this.prismaService.user.count();
 
     return {
