@@ -1,7 +1,11 @@
 import { IUserRepository } from '@data/repositories/user-repository';
 import { IUser } from '@domain/entities/user';
+import {
+  PaginationParams,
+  PaginationData,
+} from '@domain/types/pagination-params';
 import { CreateUserParams, UpdateUserParams } from '@domain/types/user-params';
-import { userMock } from '../entities/user-mock';
+import { userMock, usersMock } from '../entities/user-mock';
 
 export const makeUserRepository = (): IUserRepository => {
   class UserRepositoryStub implements IUserRepository {
@@ -22,6 +26,19 @@ export const makeUserRepository = (): IUserRepository => {
     }
     findUserByPasswordResetCode(code: string, email: string): Promise<IUser> {
       return Promise.resolve(userMock);
+    }
+    findManyUsers(
+      pagination: PaginationParams,
+    ): Promise<PaginationData<IUser>> {
+      return Promise.resolve({
+        meta: {
+          hasNext: true,
+          limit: 1,
+          page: 1,
+          total: 3,
+        },
+        data: usersMock,
+      });
     }
   }
   return new UserRepositoryStub();
