@@ -18,3 +18,36 @@ export const createUserMockParams: CreateUserParams = {
   password: 'password',
   username: 'Issac',
 };
+
+export const usersMock: IUser[] = [
+  {
+    id: '1',
+    username: 'Issac',
+    email: 'issac@email.com',
+    password: 'hashedpassword',
+    registrationStep: RegistrationStep.PENDING,
+    roles: [roleMock],
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: '2',
+    username: 'Ana',
+    email: 'ana@email.com',
+    password: 'hashedpassword',
+    registrationStep: RegistrationStep.PENDING,
+    roles: [roleMock],
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+  {
+    id: '3',
+    username: 'Romeo',
+    email: 'romeo@email.com',
+    password: 'hashedpassword',
+    registrationStep: RegistrationStep.PENDING,
+    roles: [roleMock],
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  },
+];
