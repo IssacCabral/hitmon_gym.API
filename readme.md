@@ -78,3 +78,41 @@ gympass
 ### Esquema inicial do banco de dados
 
 <img src="./preview/hitmon-gym-schemas.png"></img>
+
+### Aluno
+
+- Informações do perfil
+  - nome, endereço, telefone, pagamentos
+- Avaliações
+  - Avaliação muscular
+    - gráfico de evolução mensal
+  - Avaliação antropometrica
+    - a definir...
+- Ficha de treino
+  - Dia da semana
+    - Máquinas
+      - equipamento
+      - série
+      - repetições
+      - descrição de uso
+      - gif do movimento?
+
+### Instrutor
+
+- Criar avaliação
+  - Muscular
+  - Antropometrica
+- Criar ficha de treino
+- Listagem de alunos
+
+- Responsabilidade do instrutor de
+  adicionar o gif ao treino
+
+### Admin
+
+- Listagem de Instrutores
+- Listagem de Alunos
+  - Status de pagamento dos alunos
+- Cadastrar equipamentos
+- Listagem de equipamentos
+- Editar equipamentos
