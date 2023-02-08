@@ -40,4 +40,19 @@ describe('# UseCase - create equipment category', () => {
     const promise = usecase.execute(createEquipmentCategoryMockParams);
     await expect(promise).rejects.toThrow();
   });
+
+  it('Should call findEquipmentCategoryByName with correct name', async () => {
+    const { repository, usecase } = makeSut();
+
+    jest
+      .spyOn(repository, 'findEquipmentCategoryByName')
+      .mockResolvedValueOnce(null);
+    const findEquipmentCategoryByNameSpy = jest.spyOn(
+      repository,
+      'findEquipmentCategoryByName',
+    );
+
+    await usecase.execute(createEquipmentCategoryMockParams);
+    expect(findEquipmentCategoryByNameSpy).toHaveBeenCalledWith('Pernas');
+  });
 });
