@@ -27,4 +27,17 @@ describe('# UseCase - create equipment category', () => {
       new BusinessError('Name already exists'),
     );
   });
+
+  it('Should throw if findEquipmentCategoryByName throws', async () => {
+    const { repository, usecase } = makeSut();
+
+    jest
+      .spyOn(repository, 'findEquipmentCategoryByName')
+      .mockImplementationOnce(() => {
+        throw new Error();
+      });
+
+    const promise = usecase.execute(createEquipmentCategoryMockParams);
+    await expect(promise).rejects.toThrow();
+  });
 });
