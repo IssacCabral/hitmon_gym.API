@@ -1,4 +1,3 @@
-import { IRole } from '@domain/entities/role';
 import { IUser, RegistrationStep } from '../entities/user';
 
 export type CreateUserParams = Omit<
