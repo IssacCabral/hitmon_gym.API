@@ -15,24 +15,18 @@ enum RegistrationStep {
 }
 
 model User {
-  id String @id @unique @default(uuid())
-
-  email    String @unique @db.VarChar(50)
-  password String @db.VarChar(100)
-  username String @db.VarChar(50)
-
-  registrationStep RegistrationStep @default(PENDING) @map("registration_step")
-
-  accountVerificationCode          String?   @map("account_verification_code") @db.VarChar(6)
-  accountVerificationCodeExpiresAt DateTime? @map("account_verification_code_expires_at")
-
-  passwordResetCode          String?   @map("password_reset_code") @db.VarChar(6)
-  passwordResetCodeExpiresAt DateTime? @map("password_reset_code_expires_at")
-
-  roles Role[] @relation("user_roles")
-
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  id                               String           @id @unique @default(uuid())
+  email                            String           @unique @db.VarChar(50)
+  password                         String           @db.VarChar(100)
+  username                         String           @db.VarChar(50)
+  registrationStep                 RegistrationStep @default(PENDING) @map("registration_step")
+  accountVerificationCode          String?          @map("account_verification_code") @db.VarChar(6)
+  accountVerificationCodeExpiresAt DateTime?        @map("account_verification_code_expires_at")
+  passwordResetCode                String?          @map("password_reset_code") @db.VarChar(6)
+  passwordResetCodeExpiresAt       DateTime?        @map("password_reset_code_expires_at")
+  roles                            Role[]           @relation("user_roles")
+  createdAt                        DateTime         @default(now()) @map("created_at")
+  updatedAt                        DateTime         @default(now()) @updatedAt @map("updated_at")
 
   @@map("users")
 }
@@ -46,11 +40,27 @@ enum RoleTypes {
 }
 
 model Role {
-  id String @id @unique @default(uuid())
-
+  id          String    @id @unique @default(uuid())
   type        RoleTypes @default(STUDENT)
   description String?   @db.VarChar(200)
   users       User[]    @relation("user_roles")
 
   @@map("roles")
+}
+
+model Equipment {
+  id         String              @id @unique @default(uuid())
+  name       String              @unique()
+  categories EquipmentCategory[]
+  createdAt  DateTime            @default(now()) @map("created_at")
+  updatedAt  DateTime            @default(now()) @updatedAt @map("updated_at")
+}
+
+model EquipmentCategory {
+  id          String     @id @unique @default(uuid())
+  name        String     @unique()
+  Equipment   Equipment? @relation(fields: [equipmentId], references: [id])
+  equipmentId String?
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @default(now()) @updatedAt @map("updated_at")
 }
