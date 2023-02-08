@@ -49,18 +49,18 @@ model Role {
 }
 
 model Equipment {
-  id         String              @id @unique @default(uuid())
-  name       String              @unique()
-  categories EquipmentCategory[]
-  createdAt  DateTime            @default(now()) @map("created_at")
-  updatedAt  DateTime            @default(now()) @updatedAt @map("updated_at")
+  id                  String             @id @unique @default(uuid())
+  name                String             @unique()
+  EquipmentCategory   EquipmentCategory? @relation(fields: [equipmentCategoryId], references: [id])
+  equipmentCategoryId String?            @map("category_id")
+  createdAt           DateTime           @default(now()) @map("created_at")
+  updatedAt           DateTime           @default(now()) @updatedAt @map("updated_at")
 }
 
 model EquipmentCategory {
-  id          String     @id @unique @default(uuid())
-  name        String     @unique()
-  Equipment   Equipment? @relation(fields: [equipmentId], references: [id])
-  equipmentId String?
-  createdAt   DateTime   @default(now()) @map("created_at")
-  updatedAt   DateTime   @default(now()) @updatedAt @map("updated_at")
+  id         String      @id @unique @default(uuid())
+  name       String      @unique()
+  equipments Equipment[]
+  createdAt  DateTime    @default(now()) @map("created_at")
+  updatedAt  DateTime    @default(now()) @updatedAt @map("updated_at")
 }
