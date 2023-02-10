@@ -6,10 +6,15 @@ import {
   CreateEquipmentReturns,
 } from '@domain/types/equipment-params';
 import { ICreateEquipmentUseCase } from '@domain/usecases/equipment/create-equipment';
+import { EQUIPMENT_CATEGORY_REPOSITORY } from '@infra/modules/equipment-category/equipment.category.providers';
+import { EQUIPMENT_REPOSITORY } from '@infra/modules/equipment/equipment.providers';
+import { Inject } from '@nestjs/common';
 
 export class DbCreateEquipmentUseCase implements ICreateEquipmentUseCase {
   constructor(
+    @Inject(EQUIPMENT_REPOSITORY)
     private readonly equipmentRepository: IEquipmentRepository,
+    @Inject(EQUIPMENT_CATEGORY_REPOSITORY)
     private readonly equipmentCategoryRepository: IEquipmentCategoryRepository,
   ) {}
 

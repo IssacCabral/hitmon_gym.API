@@ -20,7 +20,7 @@ export class FindEquipmentCategoriesController {
   ) {}
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.STUDENT)
+  @Roles(Role.ADMIN)
   @Get()
   async handle() {
     try {
