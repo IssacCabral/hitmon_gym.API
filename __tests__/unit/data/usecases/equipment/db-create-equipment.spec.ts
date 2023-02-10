@@ -134,60 +134,33 @@ describe('# UseCase - create equipment', () => {
     await expect(promise).rejects.toThrow();
   });
 
-  // it('Should call createUser with correct values', async () => {
-  //   const { usecase, repository } = makeSut();
-  //   const createUserRepoSpy = jest.spyOn(repository, 'createUser');
+  it('Should call createEquipment with correct values', async () => {
+    const { usecase, equipmentRepository } = makeSut();
+    const spy = jest.spyOn(equipmentRepository, 'createEquipment');
 
-  //   jest.useFakeTimers().setSystemTime(new Date('2020-12-22T13:30:18.781Z'));
+    jest
+      .spyOn(equipmentRepository, 'findEquipmentByName')
+      .mockResolvedValueOnce(null);
 
-  //   await usecase.execute(createUserMockParams);
+    await usecase.execute(createEquipmentMockParams);
 
-  //   expect(createUserRepoSpy).toHaveBeenCalledWith({
-  //     email: 'issac@email.com',
-  //     password: 'hashed_value',
-  //     username: 'Issac',
-  //     accountVerificationCode: '12345678',
-  //     accountVerificationCodeExpiresAt: new Date('2020-12-22T13:33:18.781Z'),
-  //   });
-  // });
+    expect(spy).toHaveBeenCalledWith({
+      name: 'Leg Press',
+      equipmentCategoryId: '1',
+    });
+  });
 
-  // it('Should create new user with role STUDENT and RegistrationStep PENDING', async () => {
-  //   const { usecase } = makeSut();
+  it('Should create a new equipment on success', async () => {
+    const { usecase, equipmentRepository } = makeSut();
 
-  //   const result = await usecase.execute(createUserMockParams);
-  //   expect(result.user).toHaveProperty('registrationStep', 'PENDING');
-  //   expect(result.user).toHaveProperty('roles', [
-  //     {
-  //       id: '1',
-  //       type: RoleTypes.STUDENT,
-  //       description: 'any_description',
-  //     },
-  //   ]);
-  // });
+    jest
+      .spyOn(equipmentRepository, 'findEquipmentByName')
+      .mockResolvedValueOnce(null);
 
-  // it('Should throw if mailService throws', async () => {
-  //   const { usecase, mailService } = makeSut();
+    const result = await usecase.execute(createEquipmentMockParams);
 
-  //   jest.spyOn(mailService, 'sendEmail').mockImplementationOnce(() => {
-  //     throw new Error();
-  //   });
-
-  //   const promise = usecase.execute(createUserMockParams);
-  //   await expect(promise).rejects.toThrow();
-  // });
-
-  // it('Should call mailService with correct values', async () => {
-  //   const { usecase, mailService } = makeSut();
-  //   const mailServiceSpy = jest.spyOn(mailService, 'sendEmail');
-
-  //   await usecase.execute(createUserMockParams);
-
-  //   expect(mailServiceSpy).toHaveBeenCalledWith({
-  //     to: 'issac@email.com',
-  //     subject: 'Confirm your account',
-  //     body: {
-  //       template: 'confirm-account',
-  //     },
-  //   });
-  // });
+    expect(result.equipment).toBeTruthy();
+    expect(result.equipment.id).toBeTruthy();
+    expect(result.equipment.name).toBe('Leg Press');
+  });
 });
