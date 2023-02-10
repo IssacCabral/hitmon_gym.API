@@ -31,4 +31,10 @@ export class PrismaEquipmentCategoryRepository
   async findAllEquipmentCategories(): Promise<IEquipmentCategory[]> {
     return await this.prismaService.equipmentCategory.findMany();
   }
+
+  async findEquipmentCategoryById(id: string): Promise<IEquipmentCategory> {
+    return await this.prismaService.equipmentCategory.findUnique({
+      where: { id },
+    });
+  }
 }

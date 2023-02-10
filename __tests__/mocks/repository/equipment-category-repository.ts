@@ -23,6 +23,10 @@ export const makeEquipmentCategoryRepository =
       findAllEquipmentCategories(): Promise<IEquipmentCategory[]> {
         return Promise.resolve(equipmentCategoriesMock);
       }
+
+      findEquipmentCategoryById(id: string): Promise<IEquipmentCategory> {
+        return Promise.resolve(equipmentCategoryMock);
+      }
     }
 
     return new EquipmentCategoryStub();
