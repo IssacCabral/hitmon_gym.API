@@ -23,7 +23,7 @@ export class FindUsersController {
   ) {}
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.STUDENT)
+  @Roles(Role.ADMIN, Role.INSTRUCTOR)
   @Get()
   async handle(@Query() findUsersOptions: FindUsersOptionsDto, @Req() reqest) {
     try {
