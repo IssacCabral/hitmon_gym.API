@@ -1,5 +1,6 @@
 import { IEquipmentCategoryRepository } from '@data/repositories/equipment-category-repository';
 import { DbFindEquipmentCategoriesUseCase } from '@data/usecases/equipment-category/db-find-equipment-categories';
+import { equipmentCategoriesMock } from '@tests/mocks/entities/equipment-category-mock';
 import { makeEquipmentCategoryRepository } from '@tests/mocks/repository/equipment-category-repository';
 
 interface SutTypes {
@@ -28,25 +29,12 @@ describe('# UseCase - find equipment categories', () => {
     await expect(promise).rejects.toThrow();
   });
 
-  // it('Should call findManyUsers with correct values', async () => {
-  //   const { usecase, repository } = makeSut();
-  //   const findManySpy = jest.spyOn(repository, 'findManyUsers');
+  it('Should return all equipment categories', async () => {
+    const { usecase } = makeSut();
+    const result = await usecase.execute();
 
-  //   await usecase.execute(request);
-
-  //   expect(findManySpy).toHaveBeenCalledWith({ page: 1, limit: 1 });
-  // });
-
-  // it('Should return paginated users', async () => {
-  //   const { usecase } = makeSut();
-  //   const result = await usecase.execute(request);
-
-  //   expect(result).toHaveProperty('data', usersMock);
-  //   expect(result).toHaveProperty('meta', {
-  //     page: 1,
-  //     limit: 1,
-  //     total: 3,
-  //     hasNext: true,
-  //   });
-  // });
+    expect(result).toBeTruthy();
+    expect(result).toEqual(equipmentCategoriesMock);
+    expect(result.length).toBe(3);
+  });
 });
