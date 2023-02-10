@@ -1,12 +1,7 @@
 import { IEquipment } from '@domain/entities/equipment';
-import {
-  CreateEquipmentParams,
-  CreateEquipmentReturns,
-} from '@domain/types/equipment-params';
+import { CreateEquipmentParams } from '@domain/types/equipment-params';
 
 export interface IEquipmentRepository {
-  createEquipment(
-    equipment: CreateEquipmentParams,
-  ): Promise<CreateEquipmentReturns>;
+  createEquipment(equipment: CreateEquipmentParams): Promise<IEquipment>;
   findEquipmentByName(name: string): Promise<IEquipment | null>;
 }
