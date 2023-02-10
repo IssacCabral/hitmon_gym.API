@@ -67,4 +67,18 @@ describe('# UseCase - create equipment category', () => {
     await usecase.execute(createEquipmentCategoryMockParams);
     expect(spy).toHaveBeenCalledWith({ name: 'Pernas' });
   });
+
+  it('Should create a new equipment category on success', async () => {
+    const { usecase, repository } = makeSut();
+
+    jest
+      .spyOn(repository, 'findEquipmentCategoryByName')
+      .mockResolvedValueOnce(null);
+
+    const result = await usecase.execute(createEquipmentCategoryMockParams);
+
+    expect(result.equipmentCategory).toBeTruthy();
+    expect(result.equipmentCategory.id).toBeTruthy();
+    expect(result.equipmentCategory.name).toBe('Pernas');
+  });
 });
