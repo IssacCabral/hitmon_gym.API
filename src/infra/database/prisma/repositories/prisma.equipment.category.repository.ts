@@ -6,7 +6,7 @@ import { EquipmentCategory } from '@prisma/client';
 import { PrismaService } from '../prisma.service';
 
 @Injectable()
-export class EquipmentCategoryRepository
+export class PrismaEquipmentCategoryRepository
   implements IEquipmentCategoryRepository
 {
   constructor(private readonly prismaService: PrismaService) {}
