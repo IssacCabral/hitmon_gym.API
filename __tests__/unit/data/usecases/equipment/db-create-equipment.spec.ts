@@ -117,75 +117,22 @@ describe('# UseCase - create equipment', () => {
     expect(spy).toHaveBeenCalledWith('1');
   });
 
-  // it('Should throw if findUserByUserName throws', async () => {
-  //   const { usecase, repository } = makeSut();
+  it('Should throw if createEquipment throws', async () => {
+    const { usecase, equipmentRepository } = makeSut();
 
-  //   jest.spyOn(repository, 'findUserByUserName').mockImplementationOnce(() => {
-  //     throw new Error();
-  //   });
+    jest
+      .spyOn(equipmentRepository, 'findEquipmentByName')
+      .mockResolvedValueOnce(null);
 
-  //   const promise = usecase.execute(createUserMockParams);
-  //   await expect(promise).rejects.toThrow();
-  // });
+    jest
+      .spyOn(equipmentRepository, 'createEquipment')
+      .mockImplementationOnce(() => {
+        throw new Error();
+      });
 
-  // it('Should call findUserByUserName with correct username', async () => {
-  //   const { usecase, repository } = makeSut();
-  //   const findByUserNameSpy = jest.spyOn(repository, 'findUserByUserName');
-  //   await usecase.execute(createUserMockParams);
-  //   expect(findByUserNameSpy).toHaveBeenCalledWith('Issac');
-  // });
-
-  // it('Should throw if hashService throws', async () => {
-  //   const { usecase, hashService } = makeSut();
-
-  //   jest.spyOn(hashService, 'generateHash').mockImplementationOnce(() => {
-  //     throw new Error();
-  //   });
-
-  //   const promise = usecase.execute(createUserMockParams);
-  //   await expect(promise).rejects.toThrow();
-  // });
-
-  // it('Should call hashService with correct password', async () => {
-  //   const { usecase, hashService } = makeSut();
-  //   const hashSpy = jest.spyOn(hashService, 'generateHash');
-  //   await usecase.execute(createUserMockParams);
-  //   expect(hashSpy).toHaveBeenCalledWith('password');
-  // });
-
-  // it('Should throw if codeTemporaryService throws', async () => {
-  //   const { usecase, codeTemporaryService } = makeSut();
-
-  //   jest
-  //     .spyOn(codeTemporaryService, 'generateCode')
-  //     .mockImplementationOnce(() => {
-  //       throw new Error();
-  //     });
-
-  //   const promise = usecase.execute(createUserMockParams);
-  //   await expect(promise).rejects.toThrow();
-  // });
-
-  // it('Should codeTemporaryService to have been called', async () => {
-  //   const { usecase, codeTemporaryService } = makeSut();
-  //   const codeTemporaryServiceSpy = jest.spyOn(
-  //     codeTemporaryService,
-  //     'generateCode',
-  //   );
-  //   await usecase.execute(createUserMockParams);
-  //   expect(codeTemporaryServiceSpy).toHaveBeenCalled();
-  // });
-
-  // it('Should throw if createUser throws', async () => {
-  //   const { usecase, repository } = makeSut();
-
-  //   jest.spyOn(repository, 'createUser').mockImplementationOnce(() => {
-  //     throw new Error();
-  //   });
-
-  //   const promise = usecase.execute(createUserMockParams);
-  //   await expect(promise).rejects.toThrow();
-  // });
+    const promise = usecase.execute(createEquipmentMockParams);
+    await expect(promise).rejects.toThrow();
+  });
 
   // it('Should call createUser with correct values', async () => {
   //   const { usecase, repository } = makeSut();
