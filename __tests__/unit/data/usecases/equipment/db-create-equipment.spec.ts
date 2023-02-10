@@ -49,12 +49,19 @@ describe('# UseCase - create equipment', () => {
     await expect(promise).rejects.toThrow();
   });
 
-  // it('Should call findUserByEmail with correct email', async () => {
-  //   const { usecase, repository } = makeSut();
-  //   const findByEmailSpy = jest.spyOn(repository, 'findUserByEmail');
-  //   await usecase.execute(createUserMockParams);
-  //   expect(findByEmailSpy).toHaveBeenCalledWith('issac@email.com');
-  // });
+  it('Should call findEquipmentByName with correct name', async () => {
+    const { usecase, equipmentRepository } = makeSut();
+
+    jest
+      .spyOn(equipmentRepository, 'findEquipmentByName')
+      .mockResolvedValueOnce(null);
+
+    const spy = jest.spyOn(equipmentRepository, 'findEquipmentByName');
+
+    await usecase.execute(createEquipmentMockParams);
+
+    expect(spy).toHaveBeenCalledWith('Leg Press');
+  });
 
   // it('Should throw a BusinessError if username already exists', async () => {
   //   const { usecase, repository } = makeSut();
