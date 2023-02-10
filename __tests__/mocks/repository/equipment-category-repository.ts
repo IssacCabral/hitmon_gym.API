@@ -2,7 +2,10 @@ import { IEquipmentCategoryRepository } from '@data/repositories/equipment-categ
 import { IEquipmentCategory } from '@domain/entities/equipment-category';
 import { CreateEquipmentCategoryParams } from '@domain/types/equipment-category-params';
 import { EquipmentCategory } from '@prisma/client';
-import { equipmentCategoryMock } from '../entities/equipment-category-mock';
+import {
+  equipmentCategoriesMock,
+  equipmentCategoryMock,
+} from '../entities/equipment-category-mock';
 
 export const makeEquipmentCategoryRepository =
   (): IEquipmentCategoryRepository => {
@@ -12,8 +15,13 @@ export const makeEquipmentCategoryRepository =
       ): Promise<IEquipmentCategory> {
         return Promise.resolve(equipmentCategoryMock);
       }
+
       findEquipmentCategoryByName(name: string): Promise<EquipmentCategory> {
         return Promise.resolve(equipmentCategoryMock);
+      }
+
+      findAllEquipmentCategories(): Promise<IEquipmentCategory[]> {
+        return Promise.resolve(equipmentCategoriesMock);
       }
     }
 
