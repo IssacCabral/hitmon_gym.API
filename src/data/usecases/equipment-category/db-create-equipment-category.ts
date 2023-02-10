@@ -5,11 +5,14 @@ import {
   CreateEquipmentCategoryReturns,
 } from '@domain/types/equipment-category-params';
 import { ICreateEquipmentCategoryUseCase } from '@domain/usecases/equipment-category/create-equipment-category';
+import { EQUIPMENT_CATEGORY_REPOSITORY } from '@infra/modules/equipment-category/equipment.category.providers';
+import { Inject } from '@nestjs/common';
 
 export class DbCreateEquipmentCategoryUseCase
   implements ICreateEquipmentCategoryUseCase
 {
   constructor(
+    @Inject(EQUIPMENT_CATEGORY_REPOSITORY)
     private readonly equipmentCategoryRepository: IEquipmentCategoryRepository,
   ) {}
 
