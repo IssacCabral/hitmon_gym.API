@@ -55,4 +55,16 @@ describe('# UseCase - create equipment category', () => {
     await usecase.execute(createEquipmentCategoryMockParams);
     expect(findEquipmentCategoryByNameSpy).toHaveBeenCalledWith('Pernas');
   });
+
+  it('Should call createEquipmentCategory with correct name', async () => {
+    const { usecase, repository } = makeSut();
+    const spy = jest.spyOn(repository, 'createEquipmentCategory');
+
+    jest
+      .spyOn(repository, 'findEquipmentCategoryByName')
+      .mockResolvedValueOnce(null);
+
+    await usecase.execute(createEquipmentCategoryMockParams);
+    expect(spy).toHaveBeenCalledWith({ name: 'Pernas' });
+  });
 });
