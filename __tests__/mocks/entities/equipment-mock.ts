@@ -9,7 +9,7 @@ export const equipmentMock: IEquipment = {
   updatedAt: new Date(),
 };
 
-export const createEquipmentMock: CreateEquipmentParams = {
+export const createEquipmentMockParams: CreateEquipmentParams = {
   name: 'Leg Press',
   equipmentCategoryId: '1',
 };

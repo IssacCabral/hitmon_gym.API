@@ -3,7 +3,6 @@ import { IUserRepository } from '@data/repositories/user-repository';
 import { DbCheckAccountVerificationCodeUseCase } from '@data/usecases/user/db-check-account-verification-code';
 import { IUser, RegistrationStep } from '@domain/entities/user';
 import { BusinessError } from '@domain/errors/business-error';
-import { roleMock } from '@tests/mocks/entities/role-mock';
 import { userMock } from '@tests/mocks/entities/user-mock';
 import { makeUserRepository } from '@tests/mocks/repository/user-mock-repository';
 import { makeDateService } from '@tests/mocks/usecase/protocols/date-mock';

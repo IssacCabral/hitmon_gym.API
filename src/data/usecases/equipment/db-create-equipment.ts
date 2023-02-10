@@ -7,7 +7,7 @@ import {
 } from '@domain/types/equipment-params';
 import { ICreateEquipmentUseCase } from '@domain/usecases/equipment/create-equipment';
 
-export class DbCreateEquipment implements ICreateEquipmentUseCase {
+export class DbCreateEquipmentUseCase implements ICreateEquipmentUseCase {
   constructor(
     private readonly equipmentRepository: IEquipmentRepository,
     private readonly equipmentCategoryRepository: IEquipmentCategoryRepository,
