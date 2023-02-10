@@ -27,4 +27,8 @@ export class PrismaEquipmentCategoryRepository
       where: { name },
     });
   }
+
+  async findAllEquipmentCategories(): Promise<IEquipmentCategory[]> {
+    return await this.prismaService.equipmentCategory.findMany();
+  }
 }
