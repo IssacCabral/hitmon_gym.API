@@ -7,4 +7,5 @@ export interface IEquipmentCategoryRepository {
     equipmentCategory: CreateEquipmentCategoryParams,
   ): Promise<IEquipmentCategory>;
   findEquipmentCategoryByName(name: string): Promise<EquipmentCategory | null>;
+  findAllEquipmentCategories(): Promise<IEquipmentCategory[]>;
 }
