@@ -63,16 +63,59 @@ describe('# UseCase - create equipment', () => {
     expect(spy).toHaveBeenCalledWith('Leg Press');
   });
 
-  // it('Should throw a BusinessError if username already exists', async () => {
-  //   const { usecase, repository } = makeSut();
-  //   const user = userMock;
-  //   jest.spyOn(repository, 'findUserByUserName').mockResolvedValueOnce(user);
+  it('Should throw a BusinessError if equipment category is not found by id', async () => {
+    const { usecase, equipmentRepository, equipmentCategoryRepository } =
+      makeSut();
 
-  //   const promise = usecase.execute(createUserMockParams);
-  //   await expect(promise).rejects.toThrowError(
-  //     new BusinessError('Username already exists'),
-  //   );
-  // });
+    jest
+      .spyOn(equipmentRepository, 'findEquipmentByName')
+      .mockResolvedValueOnce(null);
+
+    jest
+      .spyOn(equipmentCategoryRepository, 'findEquipmentCategoryById')
+      .mockResolvedValueOnce(null);
+
+    const promise = usecase.execute(createEquipmentMockParams);
+    await expect(promise).rejects.toThrowError(
+      new BusinessError('EquipmentCategory is not found', 404),
+    );
+  });
+
+  it('Should throw if findEquipmentCategoryById throws', async () => {
+    const { usecase, equipmentRepository, equipmentCategoryRepository } =
+      makeSut();
+
+    jest
+      .spyOn(equipmentRepository, 'findEquipmentByName')
+      .mockResolvedValueOnce(null);
+
+    jest
+      .spyOn(equipmentCategoryRepository, 'findEquipmentCategoryById')
+      .mockImplementationOnce(() => {
+        throw new Error();
+      });
+
+    const promise = usecase.execute(createEquipmentMockParams);
+    await expect(promise).rejects.toThrow();
+  });
+
+  it('Should call findEquipmentCategoryById with correct id', async () => {
+    const { usecase, equipmentRepository, equipmentCategoryRepository } =
+      makeSut();
+
+    jest
+      .spyOn(equipmentRepository, 'findEquipmentByName')
+      .mockResolvedValueOnce(null);
+
+    const spy = jest.spyOn(
+      equipmentCategoryRepository,
+      'findEquipmentCategoryById',
+    );
+
+    await usecase.execute(createEquipmentMockParams);
+
+    expect(spy).toHaveBeenCalledWith('1');
+  });
 
   // it('Should throw if findUserByUserName throws', async () => {
   //   const { usecase, repository } = makeSut();
