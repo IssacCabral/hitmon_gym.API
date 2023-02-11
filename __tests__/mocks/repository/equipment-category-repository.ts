@@ -28,9 +28,9 @@ export const makeEquipmentCategoryRepository =
         return Promise.resolve(equipmentCategoryMock);
       }
 
-      updateEquipmentCategory(
+      updateEquipmentCategoryName(
         id: string,
-        params: Partial<IEquipmentCategory>,
+        name: string,
       ): Promise<IEquipmentCategory> {
         return Promise.resolve(equipmentCategoryMock);
       }

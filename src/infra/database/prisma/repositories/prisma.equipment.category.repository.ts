@@ -37,4 +37,18 @@ export class PrismaEquipmentCategoryRepository
       where: { id },
     });
   }
+
+  async updateEquipmentCategoryName(
+    id: string,
+    name: string,
+  ): Promise<IEquipmentCategory> {
+    const updatedEquipmentCategory =
+      await this.prismaService.equipmentCategory.update({
+        where: { id },
+        data: {
+          name,
+        },
+      });
+    return updatedEquipmentCategory;
+  }
 }

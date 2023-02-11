@@ -1,11 +1,10 @@
 import { IEquipmentCategoryRepository } from '@data/repositories/equipment-category-repository';
-import { IEquipmentCategory } from '@domain/entities/equipment-category';
 import { BusinessError } from '@domain/errors/business-error';
 import { UpdateEquipmentCategoryReturns } from '@domain/types/equipment-category-params';
-import { IUpdateEquipmentCategoryUseCase } from '@domain/usecases/equipment-category/edit-equipment-category';
+import { IUpdateEquipmentCategoryNameUseCase } from '@domain/usecases/equipment-category/update-equipment-category-name';
 
-export class DbUpdateEquipmentCategoryUseCase
-  implements IUpdateEquipmentCategoryUseCase
+export class DbUpdateEquipmentCategoryNameUseCase
+  implements IUpdateEquipmentCategoryNameUseCase
 {
   constructor(
     private readonly equipmentCategoryRepository: IEquipmentCategoryRepository,
@@ -13,7 +12,7 @@ export class DbUpdateEquipmentCategoryUseCase
 
   async execute(
     id: string,
-    params: Partial<IEquipmentCategory>,
+    name: string,
   ): Promise<UpdateEquipmentCategoryReturns> {
     const equipmentCategory =
       await this.equipmentCategoryRepository.findEquipmentCategoryById(id);
@@ -22,22 +21,20 @@ export class DbUpdateEquipmentCategoryUseCase
       throw new BusinessError('EquipmentCategory is not found', 404);
     }
 
-    const findEquipmentCategoryByParamName =
-      await this.equipmentCategoryRepository.findEquipmentCategoryByName(
-        params.name,
-      );
+    const findEquipmentCategoryByName =
+      await this.equipmentCategoryRepository.findEquipmentCategoryByName(name);
 
     if (
-      findEquipmentCategoryByParamName &&
-      equipmentCategory.name !== findEquipmentCategoryByParamName.name
+      findEquipmentCategoryByName &&
+      equipmentCategory.name !== findEquipmentCategoryByName.name
     ) {
       throw new BusinessError('Name already exists');
     }
 
     const updatedEquipmentCategory =
-      await this.equipmentCategoryRepository.updateEquipmentCategory(
+      await this.equipmentCategoryRepository.updateEquipmentCategoryName(
         id,
-        params,
+        name,
       );
 
     return {
