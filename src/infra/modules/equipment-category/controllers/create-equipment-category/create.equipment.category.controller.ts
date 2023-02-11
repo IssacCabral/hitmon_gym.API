@@ -23,7 +23,7 @@ export class CreateEquipmentCategoryController {
   ) {}
 
   @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.STUDENT)
+  @Roles(Role.ADMIN)
   @Post()
   async handle(@Body() createEquipmentCategoryDto: CreateEquipmentCategoryDto) {
     try {

@@ -2,11 +2,14 @@ import { IEquipmentCategoryRepository } from '@data/repositories/equipment-categ
 import { BusinessError } from '@domain/errors/business-error';
 import { UpdateEquipmentCategoryReturns } from '@domain/types/equipment-category-params';
 import { IUpdateEquipmentCategoryNameUseCase } from '@domain/usecases/equipment-category/update-equipment-category-name';
+import { EQUIPMENT_CATEGORY_REPOSITORY } from '@infra/modules/equipment-category/equipment.category.providers';
+import { Inject } from '@nestjs/common';
 
 export class DbUpdateEquipmentCategoryNameUseCase
   implements IUpdateEquipmentCategoryNameUseCase
 {
   constructor(
+    @Inject(EQUIPMENT_CATEGORY_REPOSITORY)
     private readonly equipmentCategoryRepository: IEquipmentCategoryRepository,
   ) {}
 
