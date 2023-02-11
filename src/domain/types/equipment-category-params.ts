@@ -7,3 +7,7 @@ export type CreateEquipmentCategoryParams = Omit<
 export type CreateEquipmentCategoryReturns = {
   equipmentCategory: IEquipmentCategory;
 };
+export type UpdateEquipmentCategoryParams = Partial<IEquipmentCategory>;
+export type UpdateEquipmentCategoryReturns = {
+  updatedEquipmentCategory: IEquipmentCategory;
+};

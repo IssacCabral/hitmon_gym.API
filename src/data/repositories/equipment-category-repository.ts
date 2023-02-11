@@ -1,5 +1,8 @@
 import { IEquipmentCategory } from '@domain/entities/equipment-category';
-import { CreateEquipmentCategoryParams } from '@domain/types/equipment-category-params';
+import {
+  CreateEquipmentCategoryParams,
+  UpdateEquipmentCategoryParams,
+} from '@domain/types/equipment-category-params';
 
 export interface IEquipmentCategoryRepository {
   createEquipmentCategory(
@@ -8,4 +11,8 @@ export interface IEquipmentCategoryRepository {
   findEquipmentCategoryByName(name: string): Promise<IEquipmentCategory | null>;
   findAllEquipmentCategories(): Promise<IEquipmentCategory[]>;
   findEquipmentCategoryById(id: string): Promise<IEquipmentCategory | null>;
+  updateEquipmentCategory(
+    id: string,
+    params: UpdateEquipmentCategoryParams,
+  ): Promise<IEquipmentCategory>;
 }

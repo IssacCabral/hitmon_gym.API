@@ -27,6 +27,13 @@ export const makeEquipmentCategoryRepository =
       findEquipmentCategoryById(id: string): Promise<IEquipmentCategory> {
         return Promise.resolve(equipmentCategoryMock);
       }
+
+      updateEquipmentCategory(
+        id: string,
+        params: Partial<IEquipmentCategory>,
+      ): Promise<IEquipmentCategory> {
+        return Promise.resolve(equipmentCategoryMock);
+      }
     }
 
     return new EquipmentCategoryStub();

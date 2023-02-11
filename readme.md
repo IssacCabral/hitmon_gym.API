@@ -113,11 +113,17 @@ gympass
 - Listagem de Instrutores
 - Listagem de Alunos
   - Status de pagamento dos alunos
-- Cadastrar categorias de equipamentos
-- Listar categorias de equipamentos
+
+Categoria
+
+- Cadastrar categorias de equipamentos ok
+- Listar categorias de equipamentos ok
 - Editar categorias de equipamentos
 - Exclui categorias de equipamentos
-- Cadastrar equipamentos
+
+Equipamento
+
+- Cadastrar equipamentos ok
   - Selecionar categoria
 - Listagem de equipamentos
 - Editar equipamentos
